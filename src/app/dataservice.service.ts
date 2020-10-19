@@ -16,7 +16,7 @@ export class DataserviceService {
 
     redirectUrl: string;
 
-    baseUrl: string = "http://localhost/login01/backend";
+    baseUrl: string = "http://localhost/ng-meetings/backend";
 
     @Output()
     getLoggedInName: EventEmitter<any> = new EventEmitter();
