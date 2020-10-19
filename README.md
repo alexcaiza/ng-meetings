@@ -35,3 +35,8 @@ npm install
 ng serve
 
 ng build --prod
+
+# Cambios Version
+git add .
+git commit -a -m "Mensaje de que se cambio"
+git push
