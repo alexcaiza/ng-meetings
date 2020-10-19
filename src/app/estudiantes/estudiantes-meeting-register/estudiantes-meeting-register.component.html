@@ -1,0 +1,59 @@
+<h4 class="text-center">Pastoral meeting</h4>
+<div class="row">
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-6 col-md-offset-3">
+        <div class="jumbotron m-0 p-1">
+            <form [formGroup]="formGroup" (ngSubmit)="saveMeeting(formGroup)" autocomplete="off">
+                <div class="form-group">
+                    <label for="profesorid">Profesor</label>
+                    <select class="form-control" name="profesorId" formControlName="profesorid" placeholder="Seleccione un profesor">
+                        <option *ngFor="let profesor of profesores" [value]="profesor.profesorid">
+                            {{profesor.nombres}}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="fechameeting">Fecha</label>
+                    <div class="input-group">
+                        <input type="date" name="fechameeting" formControlName="fechameeting" autocomplete="off"
+                            class="form-control col-sm-3">
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary" type="button" (click)="findFechasDocente()">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div *ngIf="formGroup.controls['fechameeting'].invalid && (formGroup.controls['fechameeting'].dirty || formGroup.controls['fechameeting'].touched)"
+                        class="alert alert-danger">
+                        <div *ngIf="formGroup.controls['fechameeting'].errors.required">
+                            El campo fecha es requerido.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="optradio">Hora:</label>
+                    <div class="form-check" *ngFor="let hora of horas">
+                        <label class="form-check-label">
+                            <input type="radio" class="form-check-input" 
+                                [attr.disabled]="!hora.disabled===false || null"
+                                name="horaid" formControlName="horaid" [value]="hora.horaid">
+                            <span [title]="hora.horaid">{{ hora.horainicio }} - {{ hora.horafin }}</span>  
+                            <span class="reservado" *ngIf="hora.disabled==true"> (Reservado)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!--
+                <button type="submit" class="btn btn-primary" [disabled]="!formGroup.valid">Aceptar</button>
+                -->
+                <button type="submit" class="btn btn-primary">Aceptar</button>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-3">
+    </div>
+
+</div>

@@ -1,0 +1,9 @@
+export class Estudiante {
+    estudianteid: number;
+    nombres: string;
+    cedula: string;
+    email: string;
+    curso: number;    
+    paralelo: string;
+    estado: string;
+}
