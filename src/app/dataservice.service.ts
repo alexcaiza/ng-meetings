@@ -4,6 +4,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
 import { Horario } from './horario';
 import { Profesor } from './profesor';
+import { Meeting } from './meeting';
 
 @Injectable({
     providedIn: 'root'
@@ -39,8 +40,7 @@ export class DataserviceService {
         const url = `${this.baseUrl}/findEstudianteMeeting.php`;
         return this.httpClient.post(url, params, this.httpOptions).pipe(
             tap(_ => console.log(`params=${params}`)),
-            catchError(this.handleError<any>('findEstudianteMeeting'))
-        );
+            catchError(this.handleError<any>('findEstudianteMeeting')));
     }
 
     private handleError<T>(operation = 'operation', result?: T) {
@@ -69,9 +69,17 @@ export class DataserviceService {
                     console.log('user: ');
                     console.log(data.user);
 
-                    this.setToken(data.user.estudianteid);
+                    if (data.typeUser == 'ESTUDIANTE') {
+                        this.setToken(data.user.estudianteid);
+                        this.setEstudiante(JSON.stringify(data.user));
+                    } 
+                    else {
+                        this.setToken(data.user.profesorid);
+                        this.setProfesor(JSON.stringify(data.user));
+                    }
                     this.getLoggedInName.emit(true);
-                    this.setEstudiante(JSON.stringify(data.user));
+                    
+                   
                 } 
                 return data;
             }));
@@ -92,8 +100,16 @@ export class DataserviceService {
         localStorage.setItem('estudiante', estudiante);
     }
 
+    setProfesor(profesor) {
+        localStorage.setItem('profesor', profesor);
+    }
+
     getEstudiante() {
         return localStorage.getItem('estudiante');
+    }
+
+    getProfesor() {
+        return localStorage.getItem('profesor');
     }
 
     getToken() {
@@ -111,5 +127,14 @@ export class DataserviceService {
         }
         return false;
     }
+
+    getMeetingsProfesor(profesor) {
+        const url = `${this.baseUrl}/findProfesorMeetingsList.php`;
+        //return this.httpClient.get<Profesor[]>(url);
+       // return this.httpClient.get<any>('assets/books.json')
+       return this.httpClient.post<any>(url, profesor).pipe(
+        tap(_ => console.log(`params=${profesor}`)),
+        catchError(this.handleError<any>('findEstudianteMeeting')));
+       }
 
 }

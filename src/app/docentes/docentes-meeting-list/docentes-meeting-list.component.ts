@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { DataserviceService } from 'src/app/dataservice.service';
+import { Meeting } from 'src/app/meeting';
 
 @Component({
   selector: 'app-docentes-meeting-list',
@@ -7,9 +9,39 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DocentesMeetingListComponent implements OnInit {
 
-  constructor() { }
+  meetings: Meeting[];
+
+  data: any;
+
+  constructor(private dataserviceService: DataserviceService) { }
 
   ngOnInit(): void {
+
+    console.log('ngOnInit');
+
+    var data: any;
+
+    var profesor = this.dataserviceService.getProfesor();
+
+    data = this.dataserviceService.getMeetingsProfesor(profesor).subscribe(response => {
+      console.log(response);
+      if (response) {
+        this.meetings = response.meetings;
+        console.log(response);
+        console.log(this.meetings);
+      }
+    }, err => {
+      console.log(err);
+    });
+
+    console.log(data);
+
+    if (data) {
+      this.meetings = <Meeting[]>data.meetings;
+
+      console.log('this.meetings');
+      console.log(this.meetings);
+    }
   }
 
 }

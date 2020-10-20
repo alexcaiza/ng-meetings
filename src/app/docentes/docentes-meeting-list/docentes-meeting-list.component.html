@@ -1,1 +1,20 @@
-<p>docentes-meeting-list works!</p>
+
+<p-table [value]="meetings">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Estudiante</th>
+            <th>Cedula</th>
+            <th>Fecha</th>          
+            <th>Estado</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-meeting>
+        <tr>
+            <td>{{meeting.estudiante.nombres}}</td>
+            <td>{{meeting.estudiante.cedula}}</td>
+            <td>{{meeting.fechameeting}}</td>          
+            <td>{{meeting.status}}</td>
+        </tr>
+    </ng-template>
+  </p-table>
+  
