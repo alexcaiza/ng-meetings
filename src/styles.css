@@ -4,3 +4,14 @@ body {
     font-size: 0.8rem;
     line-height: 0.5;
 }
+
+.line-height-radios {
+    line-height: 1.5;
+}
+
+.btn-group-xs > .btn, .btn-xs {
+    padding: .25rem .4rem;
+    font-size: .875rem;
+    line-height: 1.2;
+    border-radius: .2rem;
+}
