@@ -72,10 +72,8 @@ export class DataserviceService {
                     this.setToken(data.user.estudianteid);
                     this.getLoggedInName.emit(true);
                     this.setEstudiante(JSON.stringify(data.user));
-                    return data;
-                } else {
-                    return null;
-                }
+                } 
+                return data;
             }));
 
     }

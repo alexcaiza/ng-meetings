@@ -35,7 +35,7 @@ if(isset($postdata) && !empty($postdata)) {
         } 
         else {
             //http_response_code(404);
-            $response['mensaje'] = "No se encontraron los datos del usuario con los datos ingresados: '$cedula', '$email'";
+            $response['mensaje'] = "No se encontraron el usuario con los datos ingresados: '$cedula', '$email'";
             $response['error'] = "1";
             $response['error_data'] = $dataDocente;
         }

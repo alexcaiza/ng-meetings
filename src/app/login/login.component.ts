@@ -60,19 +60,28 @@ export class LoginComponent implements OnInit {
                     console.log('subscribe data');
                     console.log(data);
 
-                    if (data.typeUser) {
-                        //const redirect = this.dataService.redirectUrl ? this.dataService.redirectUrl : '/dashboard';
-                        let redirect = "";
-                        if (data.typeUser === 'ESTUDIANTE') {
-                            redirect = this.dataService.redirectUrl ? this.dataService.redirectUrl : '/estudiantes/estudiantes-meeting-list';
-                        } else if (data.typeUser === 'PROFESOR') {
-                            redirect = this.dataService.redirectUrl ? this.dataService.redirectUrl : '/docentes/docentes-meeting-list';
-                        }
-                        
-                        console.log('redirect');
-                        console.log(redirect);
+                    if (data) {
+                        if (data.user && data.typeUser) {
+                            //const redirect = this.dataService.redirectUrl ? this.dataService.redirectUrl : '/dashboard';
+                            let redirect = "";
+                            
+                            if (data.typeUser === 'ESTUDIANTE') {
+                                redirect = this.dataService.redirectUrl ? this.dataService.redirectUrl : '/estudiantes/estudiantes-meeting-list';
+                            } else if (data.typeUser === 'PROFESOR') {
+                                redirect = this.dataService.redirectUrl ? this.dataService.redirectUrl : '/docentes/docentes-meeting-list';
+                            }
 
-                        this.router.navigate([redirect]);
+                            console.log('redirect');
+                            console.log(redirect);
+
+                            this.router.navigate([redirect]);
+                        } else {
+                            if (data.mensaje) {
+                                this.alertService.error(data.mensaje, this.optionsAlert);
+                            }
+                        }
+                    } else {
+                        this.alertService.error('Los datos son incorrectos!!', this.optionsAlert);
                     }
                 },
                 error => {
