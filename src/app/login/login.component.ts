@@ -60,15 +60,20 @@ export class LoginComponent implements OnInit {
                     console.log('subscribe data');
                     console.log(data);
 
-                    //const redirect = this.dataService.redirectUrl ? this.dataService.redirectUrl : '/dashboard';
-                    const redirect = this.dataService.redirectUrl ? this.dataService.redirectUrl : '/estudiantes/estudiantes-meeting-list';
-                    console.log('redirect:');
-                    console.log(redirect);
+                    if (data.typeUser) {
+                        //const redirect = this.dataService.redirectUrl ? this.dataService.redirectUrl : '/dashboard';
+                        let redirect = "";
+                        if (data.typeUser === 'ESTUDIANTE') {
+                            redirect = this.dataService.redirectUrl ? this.dataService.redirectUrl : '/estudiantes/estudiantes-meeting-list';
+                        } else if (data.typeUser === 'PROFESOR') {
+                            redirect = this.dataService.redirectUrl ? this.dataService.redirectUrl : '/docentes/docentes-meeting-list';
+                        }
+                        
+                        console.log('redirect');
+                        console.log(redirect);
 
-                    console.log('redirect');
-                    console.log(redirect);
-
-                    this.router.navigate([redirect]);
+                        this.router.navigate([redirect]);
+                    }
                 },
                 error => {
                     //alert("User name or password is incorrect")

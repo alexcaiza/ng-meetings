@@ -1,7 +1,7 @@
 <?php
     include_once("database.php");
 
-    function findEstudianteByCedulaMail($cedula, $email) {
+    function findEstudianteByCedulaMail($mysqli, $cedula, $email) {
         
         $sql = "SELECT * FROM estudiantes WHERE cedula='$cedula' AND email='$email'";
 
@@ -9,7 +9,7 @@
 
         $data = new StdClass;
 
-        $data->sqlEstudiante = $sql;
+        $data->sql = $sql;
 
         if($result = mysqli_query($mysqli, $sql)) {
             
@@ -31,7 +31,7 @@
         return $data;
     }
 
-    function findProfesorByCedulaMail($cedula, $email) {
+    function findProfesorByCedulaMail($mysqli, $cedula, $email) {
         
         $sql = "SELECT * FROM profesores WHERE cedula='$cedula' AND email='$email'";
 
@@ -39,7 +39,7 @@
 
         $data = new StdClass;
 
-        $data->sqlEstudiante = $sql;
+        $data->sql = $sql;
 
         if($result = mysqli_query($mysqli, $sql)) {
             

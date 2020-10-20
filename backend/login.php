@@ -9,10 +9,12 @@ $response = array();
 
 if(isset($postdata) && !empty($postdata)) {
 
+    //var_dump($postdata);
+
 	$cedula = mysqli_real_escape_string($mysqli, trim($request->cedula));
     $email = mysqli_real_escape_string($mysqli, trim($request->email));
    
-    $dataEstudiante = findEstudianteByCedulaMail($cedula, $email);
+    $dataEstudiante = findEstudianteByCedulaMail($mysqli, $cedula, $email);
 
     if (isset($dataEstudiante->error) && $dataEstudiante->error == "0") {
         $response['user'] = $dataEstudiante->user;
@@ -22,7 +24,7 @@ if(isset($postdata) && !empty($postdata)) {
         $response['error'] = "0";
     }
     else {
-        $dataDocente = findEstudianteByCedulaMail($cedula, $email);
+        $dataDocente = findProfesorByCedulaMail($mysqli, $cedula, $email);
 
         if (isset($dataDocente->error) && $dataDocente->error == "0") {
             $response['user'] = $dataDocente->user;
@@ -33,8 +35,9 @@ if(isset($postdata) && !empty($postdata)) {
         } 
         else {
             //http_response_code(404);
-            $response['mensaje'] = "No se encontraron los datos del usuario con los datos ingresados";
+            $response['mensaje'] = "No se encontraron los datos del usuario con los datos ingresados: '$cedula', '$email'";
             $response['error'] = "1";
+            $response['error_data'] = $dataDocente;
         }
     }
 } else {
