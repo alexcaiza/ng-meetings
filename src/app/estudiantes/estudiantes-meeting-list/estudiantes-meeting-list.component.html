@@ -1,40 +1,37 @@
 <div class="container">
     <form>
-        <div class="text-center padding">
-            <h6> Meeting information</h6>
-        </div>
-
         <div class="form-group col mb-0">
             <fieldset class="scheduler-border">
                 <legend class="scheduler-border">Estudiante</legend>
                 <div class="form-row ">
                     <div class="form-group col-md-12">
                         <label for="firstName" class="form-label col-lg-12">Nombres</label>
-                        <input type="text" class="form-control col-lg-12 is-valid" id="firstName" placeholder="Nombres"
+                        <input type="text" class="form-control col-lg-12 form-control-sm  is-valid" id="firstName" placeholder="Nombres"
                             readonly [value]="estudiante.nombres">
                     </div>
                     <div class="form-group col-md-4">
                         <label for="lastName" class="form-label col-lg-12">Cedula</label>
-                        <input type="text" class="form-control col-lg-12" id="lastName" placeholder="Cedula" readonly
+                        <input type="text" class="form-control col-lg-12 form-control-sm " id="lastName" placeholder="Cedula" readonly
                             [value]="estudiante.cedula">
                     </div>
                     <div class="form-group col-md-4">
                         <label for="email" class="form-label col-lg-12">Email</label>
-                        <input type="email" class="form-control col-lg-12" id="email" placeholder="Cedula" readonly
+                        <input type="email" class="form-control col-lg-12 form-control-sm " id="email" placeholder="Cedula" readonly
                             [value]="estudiante.email">
                     </div>
                     <div class="form-group col-md-4">
                         <label for="password" class="form-label col-lg-12">Curso</label>
-                        <input type="text" class="form-control col-lg-12" id="lastName" placeholder="Curso" readonly
+                        <input type="text" class="form-control col-lg-12 form-control-sm " id="lastName" placeholder="Curso" readonly
                             value="{{estudiante.curso}} {{estudiante.paralelo}}">
                     </div>
                 </div>
             </fieldset>
+            <!--
             <fieldset class="scheduler-border">
-                <legend class="scheduler-border">Docente</legend>
+                <legend class="scheduler-border">Meeting</legend>
                 <div class="form-group row mb-0" *ngIf="meeting !== undefined && meeting.profesor !== undefined">
                     <div class="form-group col-md-12">
-                        <label for="firstName" class="form-label col-lg-12">Nombres</label>
+                        <label for="firstName" class="form-label col-lg-12">Profesor</label>
                         <input type="text" class="form-control col-lg-12 is-valid" id="profesorName"
                             placeholder="Nombres" readonly [value]="meeting.profesor.nombres">
                     </div>
@@ -56,7 +53,19 @@
                         <input type="text" class="form-control col-lg-12" id="horafin" placeholder="Nombres" readonly
                             [value]="meeting.hora.horafin">
                     </div>
-                    <!--
+
+                    <div class="form-group col-md-4">
+                        <label for="firstName" class="form-label col-lg-4">Estado</label>
+                        <input type="text" class="form-control col-lg-12" id="horafin" placeholder="Nombres" readonly
+                            value="ENVIADO ESTUDIANTE">
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="firstName" class="form-label col-lg-4">Meeting</label>
+                        <input type="text" class="form-control col-lg-12" id="horafin" placeholder="Nombres" readonly
+                            value="https://cedia.zoom.us/j/98258057118">
+                    </div>
+                    
                     <div class="form-group col-lg-12">
                         <label for="comment">Comment:</label>
                         <textarea class="form-control col-lg-12" rows="5" id="comment"></textarea>
@@ -66,9 +75,72 @@
                         <button type="submit" class=" btn btn-primary padding-top">Submit</button>
                         <button type="submit" class=" btn btn-danger padding-top">cancel</button>
                     </div>
-                    -->
+                    
                 </div>
             </fieldset>
+        -->
+            <div class="card bg-light mt-1">
+                <div class="card-header">
+                    Meeting information
+                </div>
+                <div class="card-body mt-2 p-0">
+                    <div class="form-group row m-0" *ngIf="meeting !== undefined && meeting.profesor !== undefined">
+                        <div class="form-group col-md-12">
+                            <label for="firstName" class="form-label col-lg-12">Profesor</label>
+                            <input type="text" class="form-control col-lg-12 is-valid form-control-sm " id="profesorName"
+                                placeholder="Nombres" readonly [value]="meeting.profesor.nombres">
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label for="firstName" class="form-label col-lg-4">Fecha</label>
+                            <input type="text" class="form-control col-lg-12 form-control-sm " id="fechaMeeting" placeholder="Nombres"
+                                readonly [value]="meeting.fechameeting">
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label for="firstName" class="form-label col-lg-4">Hora inicio</label>
+                            <input type="text" class="form-control col-lg-12 form-control-sm " id="horainicio" placeholder="Nombres"
+                                readonly [value]="meeting.hora.horainicio">
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label for="firstName" class="form-label col-lg-4">Hora fin</label>
+                            <input type="text" class="form-control col-lg-12 form-control-sm " id="horafin" placeholder="Nombres"
+                                readonly [value]="meeting.hora.horafin">
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label for="firstName" class="form-label col-lg-4">Estado</label>
+                            <input type="text" class="form-control col-lg-12 form-control-sm " id="horafin" placeholder="Nombres"
+                                readonly value="ENVIADO ESTUDIANTE">
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label for="firstName" class="form-label col-lg-4">Meeting</label>
+                            <input type="text" class="form-control col-lg-12 form-control-sm " id="horafin" placeholder="Nombres"
+                                readonly value="https://cedia.zoom.us/j/98258057118">
+                        </div>
+
+                        <div class="form-group col-lg-10">
+                            <label for="comment">Comentarios:</label>
+                            <textarea class="form-control col-lg-12 form-control-sm " rows="2" id="comment"></textarea>
+                        </div>
+
+                        <div class="form-group col-lg-2 mt-auto">
+                            <!--
+                            <button type="submit" class=" btn btn-primary padding-top">Submit</button>
+                            -->
+                            <span class="align-middle">
+                                <button type="submit" class="btn btn-outline-danger btn-xs">Cancelar meeting</button>
+                            </span>
+                        </div>
+
+                    </div>
+                    <!--
+                    <a href="#!" class="btn btn-primary">Cancelar reunion</a>
+                    -->
+                </div>
+            </div>
         </div>
 
     </form>

@@ -14,3 +14,10 @@ legend.scheduler-border {
     padding:0 5px;
     border-bottom:none;
 }
+
+.btn-group-xs > .btn, .btn-xs {
+    padding: .25rem .4rem;
+    font-size: .875rem;
+    line-height: .9;
+    border-radius: .2rem;
+  }
