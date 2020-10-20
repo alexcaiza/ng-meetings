@@ -7,10 +7,11 @@ fieldset.scheduler-border {
 }
 
 legend.scheduler-border {
-    font-size: 0.8em !important;
+    font-size: 1.0em !important;
     font-weight: bold !important;
     text-align: left !important;
     width:auto;
     padding:0 5px;
     border-bottom:none;
+    color: #f5a209;
 }

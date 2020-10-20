@@ -1,23 +1,29 @@
-<h2 class="text-center">Pastoral meeting</h2>
+<div class="mt-3 pt-3">
+<h4 class="text-center">Pastoral meeting</h4>
+</div>
 <div class="row">
     <div class="col-md-3">
     </div>
     <div class="col-md-6 col-md-offset-3">
-        <div class="jumbotron m-0 p-1">
-            <form #userForm="ngForm" [formGroup]="angForm" (ngSubmit)="postdata(angForm)" autocomplete="off" >
+        <div class="jumbotron m-1 p-2">
+            <form #userForm="ngForm" [formGroup]="angForm" (ngSubmit)="postdata(angForm)" autocomplete="off">
                 <div class="form-group">
-                    <label for="email">Cedula</label>
-                    <input type="text" name="cedula" formControlName="cedula" autocomplete="off" class="form-control input-sm" placeholder="Cedula">                     
+                    <label for="cedula">Cedula:</label>
+                    <input type="text" id="cedula" name="cedula" formControlName="cedula" autocomplete="off"
+                        class="form-control input-sm form-control-sm" placeholder="Cedula">
                 </div>
                 <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" name="email" formControlName="email" autocomplete="off" class="form-control input-sm" placeholder="Email institucional"> 
-                </div>                
-                <button type="submit" class="btn btn-primary" [disabled]="!angForm.valid">Aceptar</button>
+                    <label for="email">Email:</label>
+                    <input type="email" name="email" formControlName="email" autocomplete="off"
+                        class="form-control input-sm form-control-sm" placeholder="Email institucional">
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-outline-primary btn-xs" [disabled]="!angForm.valid">Aceptar</button>
+                </div>
             </form>
         </div>
     </div>
     <div class="col-md-3">
     </div>
- 
+
 </div>

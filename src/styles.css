@@ -15,3 +15,13 @@ body {
     line-height: 1.2;
     border-radius: .2rem;
 }
+
+.jumbotron{
+    /*
+    margin-top: 0px;
+    padding: 0px;
+    
+    */
+    color: #990000;
+    background-color: #f5f5c680;
+    }
