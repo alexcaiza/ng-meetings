@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataserviceService } from 'src/app/dataservice.service';
-import { Meeting } from 'src/app/meeting';
+import { Meeting } from 'src/app/models/meeting';
 
 @Component({
     selector: 'app-estudiantes-meeting-list',

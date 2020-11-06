@@ -23,15 +23,23 @@ if(isset($postdata) && !empty($postdata)) {
   $meetings = array();
 
   $sql = "SELECT ";
-  $sql .= " m.* ";
+  $sql .= " m.meetingid, m.profesorid, m.estudianteid, m.fechameeting, m.horaid, m.status ,m.estado, m.fecharegistro ";
+  $sql .= " , ms.meetingsstatusid, ms.estadoanteriortipo, ms.estadoanteriorvalor, ms.estadoactualtipo, ms.estadoactualvalor";
+  $sql .= " , ms.estadoactualvalor, ms.fechainicio, ms.fechafin, ms.fecharegistro, ms.estado, ms.observacion ";
   $sql .= " , p.nombres nombresprofesor, p.cedula cedulaprofesor, p.email emailprofesor ";
   $sql .= " , e.nombres nombresestudiante, e.cedula cedulaestudiante, e.email emailestudiante, e.curso, e.paralelo ";
   $sql .= " , h.horainicio, h.horafin ";
-  $sql .= " FROM meetings m ";
-  $sql .= " INNER JOIN profesores p on p.profesorid = m.profesorid";
-  $sql .= " INNER JOIN estudiantes e on e.estudianteid = m.estudianteid";
-  $sql .= " INNER JOIN horas h on h.horaid = m.horaid";
-  $sql .= " WHERE m.profesorid = '$profesorid' ";
+  $sql .= " , c1.nombre nombreestadoanterior, c2.nombre nombreestadoactual ";
+  $sql .= " FROM meetings m "; 
+  $sql .= " LEFT JOIN meetingsstatus ms on ms.meetingid = m.meetingid";
+  $sql .= " LEFT JOIN profesores p on p.profesorid = m.profesorid";
+  $sql .= " LEFT JOIN estudiantes e on e.estudianteid = m.estudianteid";
+  $sql .= " LEFT JOIN horas h on h.horaid = m.horaid";
+  $sql .= " LEFT JOIN catalogos c1 on c1.catalogotipo = ms.estadoanteriortipo and c1.catalogovalor = ms.estadoanteriorvalor";
+  $sql .= " LEFT JOIN catalogos c2 on c2.catalogotipo = ms.estadoactualtipo and c1.catalogovalor = ms.estadoactualvalor";
+  $sql .= " WHERE 1=1 ";
+  $sql .= " AND ms.fechafin is NULL ";
+  $sql .= " AND m.profesorid = '$profesorid' ";
   $sql .= " AND m.estado = '1' ";
   $sql .= " AND h.estado = '1' ";
   $sql .= " ORDER BY m.fecharegistro ";
@@ -43,8 +51,6 @@ if(isset($postdata) && !empty($postdata)) {
     while($row = mysqli_fetch_assoc($result)) {
 
       $meeting = array();
-
-	  	
 
       $estudiante = array();
       $estudiante['estudianteid'] = $row['estudianteid'];
@@ -72,17 +78,31 @@ if(isset($postdata) && !empty($postdata)) {
       $meeting['horaid'] = $row['horaid'];
       $meeting['status'] = $row['status'];
       $meeting['estado'] = $row['estado'];
-      $meeting['estudiante'] = $estudiante;
+      
+	  $estadoanterior = array();
+      $estadoanterior['catalogotipo'] = $row['estadoanteriortipo'];
+      $estadoanterior['catalogovalor'] = $row['estadoanteriorvalor'];
+      $estadoanterior['nombre'] = $row['nombreestadoanterior'];
+	  
+	  $estadoactual = array();
+      $estadoactual['catalogotipo'] = $row['estadoactualtipo'];
+      $estadoactual['catalogovalor'] = $row['estadoactualvalor'];
+      $estadoactual['nombre'] = $row['nombreestadoactual'];
+	  
+	  $meeting['estudiante'] = $estudiante;
       $meeting['profesor'] = $profesor;
       $meeting['hora'] = $hora;
+	  $meeting['estadoanterior'] = $estadoanterior;
+	  $meeting['estadoactual'] = $estadoactual;
+	  
 
       $meetings[] = $meeting;
-
     }
     $response['meetings'] = $meetings;   
   } 
   else {
-
+	$response['error'] = '1';
+	$response['message'] = mysqli_error($mysqli);
   } 
   echo json_encode($response); 
 }

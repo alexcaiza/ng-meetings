@@ -1,12 +1,25 @@
 /* You can add global styles to this file, and also import other style files */
 
 body {
-    font-size: 0.8rem;
-    line-height: 0.5;
+    font-size: 0.7rem;
+    /*line-height: 0.5;*/
 }
-
+/*
 .line-height-radios {
     line-height: 1.5;
+}
+*/
+
+.fontsize12 {
+    font-size: 12px;
+    padding: 0px;
+    /*line-height: 0.5;*/
+}
+
+legend {
+    font-size: 12px;
+    font-weight: bold;
+    color: #C0A545;
 }
 
 .btn-group-xs > .btn, .btn-xs {
@@ -15,13 +28,14 @@ body {
     line-height: 1.2;
     border-radius: .2rem;
 }
-
+/*
 .jumbotron{
     /*
     margin-top: 0px;
     padding: 0px;
     
-    */
+    
     color: #990000;
     background-color: #f5f5c680;
     }
+*/

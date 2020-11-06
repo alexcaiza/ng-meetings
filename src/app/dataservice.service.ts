@@ -2,9 +2,9 @@ import { Injectable, Output, EventEmitter } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
-import { Horario } from './horario';
-import { Profesor } from './profesor';
-import { Meeting } from './meeting';
+import { Horario } from './models/horario';
+import { Profesor } from './models/profesor';
+import { Meeting } from './models/meeting';
 
 @Injectable({
     providedIn: 'root'
@@ -31,9 +31,20 @@ export class DataserviceService {
 
         return this.httpClient.post(url, params, this.httpOptions).pipe(
             tap(_ => console.log(`params=${params}`)),
-            catchError(this.handleError<any>('updateTodo'))
+            catchError(this.handleError<any>('getHoras'))
         );
 
+    }
+
+    findCatalogosEngineStatusMeeting(params): Observable<any> {
+        const url = `${this.baseUrl}/findCatalogosEngineStatusMeeting.php`;
+
+        //return this.httpClient.get<any>(url);
+
+        return this.httpClient.post(url, params, this.httpOptions).pipe(
+            tap(_ => console.log(`params=${params}`)),
+            catchError(this.handleError<any>('findCatalogosEngineStatusMeeting'))
+        );
     }
 
     findEstudianteMeeting(params): Observable<any> {

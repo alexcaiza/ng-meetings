@@ -1,20 +1,188 @@
+<div class="pl-3 pr-3 pt-1">
+    <p-table [columns]="cols" [value]="meetings" styleClass="p-datatable-sm">
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns" style="text-align:center">
+                    {{col.header}}
+                </th>
+                <th style="text-align:center">
+                    Acciones
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-meeting let-columns="columns">
+            <tr>
+                <td *ngFor="let col of columns">
+                    {{meeting|field:col}}
+                </td>
+                <td style="text-align:center">
 
-<p-table [value]="meetings">
-    <ng-template pTemplate="header">
-        <tr>
-            <th>Estudiante</th>
-            <th>Cedula</th>
-            <th>Fecha</th>          
-            <th>Estado</th>
-        </tr>
+                    <p-button (click)="showModalDialog(meeting)" icon="pi pi-external-link" styleClass="p-button-link">
+                    </p-button>
+                    <!--
+                    <a (click)="onRowEditInit(meeting)">
+                        <i class="pi pi-check-circle"></i>
+                    </a>
+                    -->
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<p-dialog [(visible)]="displayModal" [modal]="true" 
+    [style]="{width: '50vw' }"     
+    [baseZIndex]="10000" [maximizable]="true"
+    [draggable]="true" [resizable]="true" id="recipeDialog">
+    <p-header style="color: slategrey;">
+        MEETING
+    </p-header>
+    <div class="p-0">
+        <form [formGroup]="formGroup" (ngSubmit)="saveMeeting()" autocomplete="off">
+            <fieldset class="border p-1 fontsize12">
+                <legend class="w-auto">Profesor</legend>
+                <div class="p-grid" style="margin-top: -30px; margin-bottom: -20px;">
+                    <div class="p-col-12">
+                        <div class="p-grid" style=" margin-top: 3px;">
+                            <div class="p-col-5">
+                                <label class="label-form-disabled">Nombre : </label>
+                                <label>{{ meeting?.profesor?.nombres }}</label>
+                            </div>
+                            <div class="p-col-2">
+                                <label class="label-form-disabled">Cedula : </label>
+                                <label>{{meeting?.profesor?.cedula}}</label>
+                            </div>
+                            <div class="p-col-5">
+                                <label class="label-form-disabled">Email : </label>
+                                <label>{{meeting?.profesor?.email}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset class="border p-1 fontsize12">
+                <legend class="w-auto">Estudiante</legend>
+                <div class="p-grid" style="margin-top: -30px; margin-bottom: -20px;">
+                    <div class="p-col-12">
+                        <div class="p-grid" style=" margin-top: 3px;">
+                            <div class="p-col-5">
+                                <label class="label-form-disabled">Nombre : </label>
+                                <label>{{ meeting?.estudiante?.nombres }}</label>
+                            </div>
+                            <div class="p-col-2">
+                                <label class="label-form-disabled">Cedula : </label>
+                                <label>{{meeting?.estudiante?.cedula}}</label>
+                            </div>
+                            <div class="p-col-3">
+                                <label class="label-form-disabled">Email : </label>
+                                <label>{{meeting?.estudiante?.email}}</label>
+                            </div>
+
+                            <div class="p-col-2">
+                                <label class="label-form-disabled">Curso : </label>
+                                <label>{{meeting?.estudiante?.curso}} {{meeting?.estudiante?.paralelo}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset class="border p-1 fontsize12">
+                <legend class="w-auto">Meeting</legend>
+                <div class="p-grid" style="margin-top: -30px; margin-bottom: -20px;">
+                    <div class="p-col-12">
+                        <div class="p-grid" style=" margin-top: 3px;">
+                            <div class="p-col-4">
+                                <label class="label-form-disabled">Fecha : </label>
+                                <label>{{ meeting?.fechameeting }}</label>
+                            </div>
+                            <div class="p-col-4">
+                                <label class="label-form-disabled">Hora : </label>
+                                <label>{{ meeting?.hora?.horainicio }}</label>
+                            </div>
+                            <div class="p-col-4">
+                                <label class="label-form-disabled">Estado : </label>
+                                <label>{{ meeting?.estadoactual?.nombre }}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset class="border p-1 fontsize12">
+                <legend class="w-auto">Gestionar meeting</legend>
+                <div class="p-grid" style="margin-top: -30px; margin-bottom: -20px;">
+                    <div class="p-col-12">
+                        <div class="p-grid" style=" margin-top: 3px;">
+                            <div class="p-col-12">
+                                <div class="p-field p-grid">
+                                    <label for="firstname3" class="p-col-fixed" style="width:100px">Gestionar:</label>
+                                    <div class="p-col">
+                                        <!--
+                                        <select class="form-control form-control-sm" name="profesorId"
+                                            formControlName="profesorid" placeholder="Seleccione un profesor">
+                                            <option *ngFor="let profesor of profesores" [value]="profesor.profesorid">
+                                                {{profesor.nombres}}
+                                            </option>
+                                        </select>
+                                        -->
+                                        <p-dropdown [options]="typeRelationItems" [(ngModel)]="meeting.estadoactual"
+                                            [style]="{ width: '100%' }" formControlName="ralationTypeForm" required appendTo="body" [baseZIndex]="10000">
+                                        </p-dropdown>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-col-12">
+                                <div class="p-field p-grid">
+                                    <label for="firstname3" class="p-col-fixed" style="width:100px">Zoom id:</label>
+                                    <div class="p-col">
+                                        <input id="firstname3" type="text" pInputText [style]="{ width: '100%' }"
+                                            [(ngModel)]="meeting.meetingurl"
+                                            formControlName="meetingurlTypeForm" required
+                                            > 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-col-12">
+                                <div class="p-field p-grid">
+                                    <label for="firstname3" class="p-col-fixed" style="width:100px">Observacion:</label>
+                                    <div class="p-col">
+                                        <!--
+                                        <input id="firstname3" type="text" pInputText [style]="{ width: '100%' }">
+                                        -->
+                                        <p-scrollPanel>
+                                            <textarea pInputTextarea placeholder="Ingrese una observacion del meeting" autoResize="autoResize"
+                                            [style]="{ width: '100%' }"
+                                            class="fontsize12"
+                                            [(ngModel)]="meeting.observacion"
+                                            formControlName="observacionTypeForm" required
+                                            ></textarea>
+                                        </p-scrollPanel>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <!--
+            <button type="submit" class="btn btn-primary" [disabled]="!formGroup.valid">Aceptar</button>
+            -->
+
+        </form>
+    </div>
+    <ng-template pTemplate="footer">
+        <!--
+        <p-button icon="pi pi-check" (click)="displayModal=false" label="Yes" class="p-button-text"></p-button>
+        <p-button icon="pi pi-times" (click)="displayModal=false" label="No"></p-button>
+        -->
+        <div class="text-center">
+            <button type="submit" (click)="saveMeeting()"
+                class="btn btn-outline-primary btn-xs m-1">Aceptar</button>
+            <button type="button" (click)="displayModal=false"
+                class="btn btn-outline-danger btn-xs m-1">Cancelar</button>
+        </div>
     </ng-template>
-    <ng-template pTemplate="body" let-meeting>
-        <tr>
-            <td>{{meeting.estudiante.nombres}}</td>
-            <td>{{meeting.estudiante.cedula}}</td>
-            <td>{{meeting.fechameeting}}</td>          
-            <td>{{meeting.status}}</td>
-        </tr>
-    </ng-template>
-  </p-table>
-  
+</p-dialog>

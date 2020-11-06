@@ -13,12 +13,18 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 
 import { AlertModule } from './_alert';
 
+import { FieldPipe } from './services/pipes/field.pipe';
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 @NgModule({
     declarations: [
         AppComponent,
         LoginComponent,
         RegistrationComponent,
-        DashboardComponent
+        DashboardComponent,
+        //FieldPipe
+
     ],
     imports: [
         BrowserModule,
@@ -27,7 +33,9 @@ import { AlertModule } from './_alert';
         HttpClientModule,
         ReactiveFormsModule,
         AlertModule,
-        TableModule
+        TableModule,
+        //FieldPipe,
+        BrowserAnimationsModule
     ],
     providers: [],
     bootstrap: [AppComponent]

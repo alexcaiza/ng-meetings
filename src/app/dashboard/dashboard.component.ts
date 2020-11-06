@@ -5,8 +5,8 @@ import { Router } from '@angular/router';
 
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { DataserviceService } from '../dataservice.service';
-import { Horario } from '../horario';
-import { Profesor } from '../profesor';
+import { Horario } from '../models/horario';
+import { Profesor } from '../models/profesor';
 
 import { AlertService } from '../_alert';
 
