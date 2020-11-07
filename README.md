@@ -40,3 +40,15 @@ ng build --prod
 git add .
 git commit -a -m "Mensaje de que se cambio"
 git push
+
+# Descargar cambios
+git pull
+
+npm install
+
+ng build --prod
+
+copiar de git\ng-meetings\dist a la carpeta de xampp\htdocs
+
+cambiar en index ./
+
