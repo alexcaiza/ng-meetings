@@ -2,3 +2,12 @@
     color: red;
 }
 html { font-size: 12px }
+
+.form-group label {
+    font-weight: bold;
+    color: #34495E;
+}
+
+.form-check-input {
+    margin-top: .0px !important;    
+}

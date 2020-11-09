@@ -5,134 +5,157 @@ import { Router } from '@angular/router';
 
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 
-import { DataserviceService } from '../../dataservice.service';
+import { DataserviceService } from '../../services/dataservice.service';
 
 import { Horario } from '../../models/horario';
 import { Profesor } from '../../models/profesor';
 
 import { AlertService } from '../../_alert';
+import { Estudiante } from 'src/app/models/estudiante';
+import { MeetingsService } from 'src/app/services/meetings.service';
+import { AppMessages } from 'src/app/utils/app-messages';
 
 @Component({
-  selector: 'app-estudiantes-meeting-register',
-  templateUrl: './estudiantes-meeting-register.component.html',
-  styleUrls: ['./estudiantes-meeting-register.component.css']
+    selector: 'app-estudiantes-meeting-register',
+    templateUrl: './estudiantes-meeting-register.component.html',
+    styleUrls: ['./estudiantes-meeting-register.component.css']
 })
 export class EstudiantesMeetingRegisterComponent implements OnInit {
 
-  options = {
-    autoClose: true,
-    keepAfterRouteChange: false
-  };
+   
 
-  public formGroup: FormGroup;
+    public formGroup: FormGroup;
 
-  horas: Horario[] = [];
-  profesores: Profesor[] = [];
+    horas: Horario[] = [];
+    profesores: Profesor[] = [];
 
-  Hobbies: any[] = [
-    { "profesorId": 1, "name": "Profesor1" },
-    { "profesorId": 2, "name": "Profesor2" },
-    { "profesorId": 3, "name": "Profesor3" },
-    { "profesorId": 4, "name": "Profesor4" },
-    { "profesorId": 5, "name": "Profesor5" }
-  ];
+    public value;
 
-  constructor(private formBuilder: FormBuilder,
-    private dataService: DataserviceService,
-    private router: Router,
-    private alertService: AlertService
-  ) {
-  }
+    Hobbies: any[] = [
+        { "profesorId": 1, "name": "Profesor1" },
+        { "profesorId": 2, "name": "Profesor2" },
+        { "profesorId": 3, "name": "Profesor3" },
+        { "profesorId": 4, "name": "Profesor4" },
+        { "profesorId": 5, "name": "Profesor5" }
+    ];
 
-  ngOnInit(): void {
+    date3: Date;
 
-    this.buildForm();
-
-    this.dataService.findProfesores()
-      .subscribe(response => {
-        console.log(response);
-        this.profesores = response;
-      }, err => {
-        console.log(err);
-      });
-  }
-
-  private buildForm() {
-    const dateLength = 10;
-    const today = new Date().toISOString().substring(0, dateLength);
-
-    const minPassLength = 4;
-
-    this.formGroup = this.formBuilder.group({
-      fechameeting: [null, Validators.required],
-      profesorid: [null, Validators.required],
-      horaid: [null, Validators.required]
-    });
-  }
-
-  findFechasDocente() {
-
-    console.log('Method findFechasDocente()');
-
-    console.log(this.formGroup.value);
-
-    if (this.formGroup.get("profesorid").value == null) {
-      this.alertService.error('Seleccione un profesor', this.options);
-      return;
+    constructor(private formBuilder: FormBuilder,
+        private dataService: DataserviceService,
+        private meetingService: MeetingsService,
+        private router: Router,
+        private alertService: AlertService
+    ) {
+        this.value = new Date();
     }
 
-    if (this.formGroup.get("fechameeting").value == null) {
-      this.alertService.error('Seleccione una fecha', this.options);
-      return;
+    ngOnInit(): void {
+
+        this.buildForm();
+
+        this.dataService.findProfesores()
+            .subscribe(response => {
+                console.log(response);
+                this.profesores = response;
+            }, err => {
+                console.log(err);
+            });
     }
 
-    this.dataService.getHoras(this.formGroup.value)
-      .subscribe(response => {
-        console.log(response);
-        if (response) {
-          this.horas = response.horas;
+    private buildForm() {
+        const dateLength = 10;
+        const today = new Date().toISOString().substring(0, dateLength);
+
+        const minPassLength = 4;
+
+        this.formGroup = this.formBuilder.group({
+            fechameeting: [null, Validators.required],
+            profesorid: [null, Validators.required],
+            horaid: [null, Validators.required],
+            value: [null, Validators.required]
+        });
+    }
+
+    findFechasDocente() {
+
+        console.log('Method findFechasDocente()');
+
+        console.log(this.formGroup.value);
+
+        if (this.formGroup.get("profesorid").value == null) {
+            this.alertService.error('Seleccione un profesor', AppMessages.optionsMessages);
+            return;
         }
-      }, err => {
-        console.log(err);
-      });
 
-  }
+        if (this.formGroup.get("fechameeting").value == null) {
+            this.alertService.error('Seleccione una fecha', AppMessages.optionsMessages);
+            return;
+        }
 
-  saveMeeting(angForm1: FormGroup) {
+        this.dataService.getHoras(this.formGroup.value)
+            .subscribe(response => {
+                console.log(response);
+                if (response) {
+                    this.horas = response.horas;
+                }
+            }, err => {
+                console.log(err);
+            });
 
-    console.log('Method saveMeeting()');
-
-    if (this.formGroup.get("profesorid").value == null) {
-      this.alertService.error('Seleccione un profesor', this.options);
-      return;
     }
 
-    if (this.formGroup.get("fechameeting").value == null) {
-      this.alertService.error('Seleccione una fecha', this.options);
-      return;
+    /*
+        Guarda los datos de un meeting en la bbdd
+     */
+    saveMeeting(angForm1: FormGroup) {
+
+        console.log('Method saveMeeting()');
+
+        if (this.formGroup.get("profesorid").value == null) {
+            this.alertService.error('Seleccione un profesor', AppMessages.optionsMessages);
+            return;
+        }
+
+        if (this.formGroup.get("fechameeting").value == null) {
+            this.alertService.error('Seleccione una fecha', AppMessages.optionsMessages);
+            return;
+        }
+
+        if (this.formGroup.get("horaid").value == null) {
+            this.alertService.error('Seleccione una hora en la fecha de busqueda', AppMessages.optionsMessages);
+            return;
+        }
+
+        let estudiante = this.dataService.getEstudiante();
+        console.log(estudiante);
+
+        let objEstudiante = JSON.parse(estudiante);
+        console.log(objEstudiante);
+
+        console.log(this.formGroup.value);
+
+        let values = this.formGroup.value;
+        values.estudianteid = objEstudiante?.estudianteid;
+
+        this.meetingService.saveMeetingEstudiante(values).subscribe(response => {
+                console.log('response saveMeetingEstudiante()');
+                console.log(response);
+                if (response != undefined) {
+                    if (response.error === 0) {
+                        const redirect = this.dataService.redirectUrl ? this.dataService.redirectUrl : '/estudiantes/estudiantes-meeting-list';
+                        this.router.navigate([redirect]);
+
+                        this.alertService.success('Los datos se registraron correctamente', AppMessages.optionsMessages);
+                    } else {
+                        this.alertService.error(response.message, AppMessages.optionsMessages);
+                    }
+                } else {
+                    this.alertService.error("A ocurrido un problema al registar los datos de la cita", AppMessages.optionsMessages);
+                }
+            }, (err) => {
+            console.log(err);
+            }
+        );
     }
-
-    if (this.formGroup.get("horaid").value == null) {
-      this.alertService.error('Seleccione una hora en la fecha de busqueda', this.options);
-      return;
-    }
-
-    let estudiante = this.dataService.getEstudiante();
-    console.log(estudiante);
-
-    console.log(this.formGroup.value);
-
-
-    this.alertService.success('Los datos se registraron correctamente', this.options);
-
-    const redirect = this.dataService.redirectUrl ? this.dataService.redirectUrl : '/estudiantes/estudiantes-meeting-list';
-                    console.log('redirect:');
-                    console.log(redirect);
-
-                    console.log('redirect');
-                    console.log(redirect);
-
-                    this.router.navigate([redirect]);
-  }
-
 }

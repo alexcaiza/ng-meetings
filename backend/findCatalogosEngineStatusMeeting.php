@@ -5,7 +5,7 @@
 require 'database.php';
 require 'funciones-fechas.php';
 
-$response = [];
+$response = array();
 
 $postdata = file_get_contents("php://input");
 $request = json_decode($postdata);
@@ -33,7 +33,7 @@ if(isset($postdata) && !empty($postdata)) {
   $sql = "SELECT ";
   $sql .= " estadoanteriortipo,estadoanteriorvalor,estadoactualtipo,estadoactualvalor,estadoacciontipo,estadoaccionvalor, ";
   $sql .= " codigotipousuario,valortipousuario, ";
-  $sql .= " c1.nombre nombreestadoanterior, c2.nombre nombreestadoactual, c3.nombre nombreestadoaccion, c4.nombre nombretipousuario ";
+  $sql .= " c1.nombre nombreestadoanterior, c2.catalogovalornombre nombreestadoactual, c3.catalogovalornombre nombreestadoaccion, c4.catalogovalornombre nombretipousuario ";
   $sql .= " FROM meetingsenginestatus mes ";
   $sql .= " inner join catalogos c1 on c1.catalogotipo = mes.estadoanteriortipo and c1.catalogovalor = mes.estadoanteriorvalor  ";
   $sql .= " inner join catalogos c2 on c2.catalogotipo = mes.estadoactualtipo and c2.catalogovalor = mes.estadoactualvalor ";

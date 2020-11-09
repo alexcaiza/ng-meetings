@@ -5,7 +5,7 @@
 require 'database.php';
 require 'funciones-fechas.php';
 
-$response = [];
+$response = array();
 
 $postdata = file_get_contents("php://input");
 $request = json_decode($postdata);
@@ -23,7 +23,7 @@ if(isset($postdata) && !empty($postdata)) {
   $meetings = array();
 
   $sql = "SELECT ";
-  $sql .= " m.meetingid, m.profesorid, m.estudianteid, m.fechameeting, m.horaid, m.status ,m.estado, m.fecharegistro ";
+  $sql .= " m.meetingid, m.profesorid, m.estudianteid, m.fechameeting, m.horaid, m.meetingstatuscode, m.meetingstatusvalue ,m.estado, m.fecharegistro ";
   $sql .= " , ms.meetingsstatusid, ms.estadoanteriortipo, ms.estadoanteriorvalor, ms.estadoactualtipo, ms.estadoactualvalor";
   $sql .= " , ms.estadoactualvalor, ms.fechainicio, ms.fechafin, ms.fecharegistro, ms.estado, ms.observacion ";
   $sql .= " , p.nombres nombresprofesor, p.cedula cedulaprofesor, p.email emailprofesor ";
@@ -76,7 +76,8 @@ if(isset($postdata) && !empty($postdata)) {
       $meeting['estudianteid'] = $row['estudianteid'];
       $meeting['fechameeting'] = $row['fechameeting'];
       $meeting['horaid'] = $row['horaid'];
-      $meeting['status'] = $row['status'];
+      $meeting['meetingstatuscode'] = $row['meetingstatuscode'];
+      $meeting['meetingstatusvalue'] = $row['meetingstatusvalue'];
       $meeting['estado'] = $row['estado'];
       
 	  $estadoanterior = array();
@@ -94,7 +95,6 @@ if(isset($postdata) && !empty($postdata)) {
       $meeting['hora'] = $hora;
 	  $meeting['estadoanterior'] = $estadoanterior;
 	  $meeting['estadoactual'] = $estadoactual;
-	  
 
       $meetings[] = $meeting;
     }

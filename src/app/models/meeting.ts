@@ -5,9 +5,12 @@ import { Profesor } from './profesor';
 
 export class Meeting {
     meetingid: number;
+    meetingsstatusid: number;
     fechameeting: Date;    
     fecharegistro: Date;
-    status: string;
+    meetingstatuscode: number;
+    meetingstatusvalue: string;
+    meetingstatusname: string;
     estado: string;    
     profesor: Profesor;
     estudiante: Estudiante;
@@ -19,9 +22,9 @@ export class Meeting {
 
     constructor() {
         this.meetingid = null;
+        this.meetingsstatusid = null;
         this.fechameeting = null;
-        this.fecharegistro = null;
-        this.status = null;
+        this.fecharegistro = null;        
         this.estado = null;
         this.profesor = null;
         this.estudiante = null;
@@ -30,5 +33,8 @@ export class Meeting {
         this.estadoactual = null;
         this.observacion = null;
         this.meetingurl = null;
+        this.meetingstatuscode = null;
+        this.meetingstatusvalue = null;
+        this.meetingstatusname = null;
     }
 }

@@ -2,73 +2,39 @@
 /**
  * Returns the list of policies.
  */
-require 'database.php';
-require 'funciones-fechas.php';
+include_once 'database.php';
+include_once 'funciones-fechas.php';
+include_once 'findEstudianteMeetingFunctions.php';
+include_once 'meetingsStatusConstants.php';
 
-$response = [];
+$response = array();
 
-$postdata = file_get_contents("php://input");
-$request = json_decode($postdata);
-
-$response['params'] = $request;
-
-//var_dump($request);
-
-if(isset($postdata) && !empty($postdata)) {
-
-  $estudianteid = mysqli_real_escape_string($mysqli, $request->estudianteid);
-
-  //var_dump($estudianteid);
-
-  $meeting = array();
-
-  $sql = "SELECT ";
-  $sql .= " m.* ";
-  $sql .= " , p.nombres nombresprofesor ";
-  $sql .= " , h.horainicio, h.horafin ";
-  $sql .= " FROM meetings m ";
-  $sql .= " INNER JOIN profesores p on p.profesorid = m.profesorid";
-  $sql .= " INNER JOIN horas h on h.horaid = m.horaid";
-  $sql .= " WHERE m.estudianteid = '$estudianteid' ";
-  $sql .= " AND m.estado = '1' ";
-  $sql .= " AND h.estado = '1' ";
-  $sql .= " ORDER BY m.fecharegistro DESC ";
-  $sql .= " LIMIT 0, 1 ";
-
-  $response['sqlMeetings'] = $sql;
-
-  if($result = mysqli_query($mysqli, $sql)) {
-
-    while($row = mysqli_fetch_assoc($result)) {
-	  	//$meeting = $row;
-      $meeting['meetingid'] = $row['meetingid'];
-      $meeting['profesorid'] = $row['profesorid'];
-      $meeting['estudianteid'] = $row['estudianteid'];
-      $meeting['fechameeting'] = $row['fechameeting'];
-      $meeting['horaid'] = $row['horaid'];
-      $meeting['status'] = $row['status'];
-      $meeting['estado'] = $row['estado'];
-
-      $profesor = array();
-      $profesor['profesorid'] = $row['profesorid'];
-      $profesor['nombres'] = $row['nombresprofesor'];
-
-      $hora = array();
-      $hora['horaid'] = $row['horaid'];
-      $hora['horainicio'] = $row['horainicio'];
-      $hora['horafin'] = $row['horafin'];
-
-      $meeting['profesor'] = $profesor;
-      $meeting['hora'] = $hora;
-
-    }
-    $response['meeting'] = $meeting;   
-  } 
-  else {
-
-  } 
-  echo json_encode($response); 
+try {
+	$postdata = file_get_contents("php://input");
+	
+	if(isset($postdata) && !empty($postdata)) {
+		
+		$params = json_decode($postdata);
+		
+		$notStatusIN = array(
+			MeetingsStatusConstants::CV_MEETING_STATUS_CANCELADO,
+			MeetingsStatusConstants::CV_MEETING_STATUS_CERRADO,
+			MeetingsStatusConstants::CV_MEETING_STATUS_TERMINADO
+		);
+		
+		$params->notStatusIN = $notStatusIN;
+		$params->orderType = 'DESC';
+		$params->limit = 1;
+		
+		$response = findMeetingsEstudiante($params, $mysqli);		
+	}
+	else {
+		$response['error'] = 1;
+		$response['message'] = "Datos vacios para consultar las citas del estudiante";
+	}
+} catch (Exception $e) {
+	$response['error'] = 1;
+	$response['mensaje'] = $e->getMessage();
 }
-else {
-  //http_response_code(404);
-}
+
+echo json_encode($response);

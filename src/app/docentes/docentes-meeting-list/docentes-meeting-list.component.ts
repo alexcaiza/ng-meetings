@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DataserviceService } from 'src/app/dataservice.service';
+import { DataserviceService } from 'src/app/services/dataservice.service';
 import { Meeting } from 'src/app/models/meeting';
 
 import { Router } from '@angular/router';
@@ -127,7 +127,7 @@ export class DocentesMeetingListComponent implements OnInit {
         this.displayModal = true;
 
         var objParams = {};
-        objParams['estadoanteriorvalor'] = meeting.status;
+        objParams['estadoanteriorvalor'] = meeting.meetingstatusvalue;
         objParams['valortipousuario'] = 'PRO';
         
         console.log(objParams);

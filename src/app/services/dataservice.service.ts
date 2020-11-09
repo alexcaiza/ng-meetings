@@ -2,9 +2,9 @@ import { Injectable, Output, EventEmitter } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
-import { Horario } from './models/horario';
-import { Profesor } from './models/profesor';
-import { Meeting } from './models/meeting';
+import { Horario } from '../models/horario';
+import { Profesor } from '../models/profesor';
+import { Meeting } from '../models/meeting';
 
 @Injectable({
     providedIn: 'root'

@@ -4,7 +4,7 @@
  */
 require 'database.php';
 
-$profesores = [];
+$profesores = array();
 $sql = "SELECT * FROM profesores";
 
 if($result = mysqli_query($mysqli,$sql))

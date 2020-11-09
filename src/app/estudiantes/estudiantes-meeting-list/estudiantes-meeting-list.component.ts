@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { DataserviceService } from 'src/app/dataservice.service';
+import { DataserviceService } from 'src/app/services/dataservice.service';
 import { Meeting } from 'src/app/models/meeting';
+import { AlertService } from 'src/app/_alert';
+import { AppMessages } from 'src/app/utils/app-messages';
+
+import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { MeetingsService } from 'src/app/services/meetings.service';
+import { MeetingsConstants } from 'src/app/common/meetings-constants';
 
 @Component({
     selector: 'app-estudiantes-meeting-list',
@@ -12,25 +18,90 @@ export class EstudiantesMeetingListComponent implements OnInit {
     estudiante: any;
     meeting: Meeting;
 
+    public formGroup: FormGroup;
+
     constructor(
         private dataService: DataserviceService,
+        private meetingService: MeetingsService,
+        private alertService: AlertService,
+        private formBuilder: FormBuilder
     ) { }
 
     ngOnInit(): void {
-        this.estudiante = JSON.parse(this.dataService.getEstudiante())
-        console.log('estudiante:');
-        console.log(this.estudiante);
-        console.log(this.dataService.getToken());
 
-        this.dataService.findEstudianteMeeting(this.estudiante)
-            .subscribe(response => {
-                console.log(response);
-                if (response) {
-                    this.meeting = response.meeting;
+        this.estudiante = JSON.parse(this.dataService.getEstudiante())
+
+        this.buildForm();
+
+        this.findEstudianteMeetingController();
+    }
+
+    private findEstudianteMeetingController() {
+        this.dataService.findEstudianteMeeting(this.estudiante).subscribe(response => {
+            console.log(response);
+            if (response) {
+                this.meeting = null;
+                if (response.count > 0) {
+                    this.meeting = response.meetings[0];
+                } else {
+                    this.alertService.error(response.message, AppMessages.optionsMessages);
                 }
-            }, err => {
-                console.log(err);
-            });
+            }
+        }, err => {
+            console.log(err);
+        });
+    }
+
+    private buildForm() {       
+        this.formGroup = this.formBuilder.group({
+            observacion: [null, Validators.required]
+        });
+    }
+
+    public cancelarMeetingEstudiante2() {
+        console.log('Metodo cancelarMeetingEstudiante()');
+        console.log(this.formGroup.value);
+        console.log(this.meeting);
+    }
+
+    /*
+        Guarda los datos de un meeting en la bbdd
+     */
+    public cancelarMeetingEstudiante() {
+
+        console.log('Metodo cancelarMeetingEstudiante()');
+
+        if (this.formGroup.get("observacion").value == null) {
+            this.alertService.error('Ingrese una observacion', AppMessages.optionsMessages);
+            return;
+        }
+
+        console.log(this.formGroup.value);
+
+        let values = this.formGroup.value;
+        values.meetingid = this.meeting.meetingid;
+        values.meetingsstatusid = this.meeting.meetingsstatusid;
+        values.meetingstatuscode = this.meeting.meetingstatuscode;;
+        values.meetingstatusvalue = this.meeting.meetingstatusvalue;;
+        values.action = MeetingsConstants.MEETING_ACTION_CANCELAR_ESTUDIANTE;
+
+        this.meetingService.cancelMeetingEstudiante(values).subscribe(response => {
+                console.log('response cancelMeetingEstudiante()');
+                console.log(response);
+                if (response != undefined) {
+                    if (response.error === 0) {
+                        this.alertService.success('Los reunion se cancelo correctamente', AppMessages.optionsMessages);
+                        this.findEstudianteMeetingController();
+                    } else {
+                        this.alertService.error(response.message, AppMessages.optionsMessages);
+                    }
+                } else {
+                    this.alertService.error("A ocurrido un problema al cancelar la reunion, por favor cominiquese con el administrador", AppMessages.optionsMessages);
+                }
+            }, (err) => {
+            console.log(err);
+            }
+        );
     }
 
 }

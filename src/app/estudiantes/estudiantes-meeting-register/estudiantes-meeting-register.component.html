@@ -7,7 +7,8 @@
             <form [formGroup]="formGroup" (ngSubmit)="saveMeeting(formGroup)" autocomplete="off">
                 <div class="form-group">
                     <label for="profesorid">Profesor</label>
-                    <select class="form-control form-control-sm" name="profesorId" formControlName="profesorid" placeholder="Seleccione un profesor">
+                    <select class="form-control form-control-sm" name="profesorId" formControlName="profesorid"
+                        placeholder="Seleccione un profesor">
                         <option *ngFor="let profesor of profesores" [value]="profesor.profesorid">
                             {{profesor.nombres}}
                         </option>
@@ -36,13 +37,14 @@
                 <div class="form-group">
                     <label for="optradio">Hora:</label>
                     <div class="form-check" *ngFor="let hora of horas">
-                        <label class="form-check-label line-height-radios">
-                            <input type="radio" class="form-check-input" 
-                                [attr.disabled]="!hora.disabled===false || null"
-                                name="horaid" formControlName="horaid" [value]="hora.horaid">
-                            <span [title]="hora.horaid">{{ hora.horainicio }} - {{ hora.horafin }}</span>  
+                        <!--  <label class="form-check-label line-height-radios">-->
+                        <input type="radio" class="form-check-input" [attr.disabled]="!hora.disabled===false || null"
+                            name="horaid" formControlName="horaid" [value]="hora.horaid" >
+                        <span style="padding-top: 1px !important;">
+                            <span [title]="hora.horaid">{{ hora.horainicio }} - {{ hora.horafin }}</span>
                             <span class="reservado" *ngIf="hora.disabled==true"> (Reservado)</span>
-                        </label>
+                        </span>
+                        <!-- </label> -->
                     </div>
                 </div>
 
