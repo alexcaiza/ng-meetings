@@ -36,7 +36,7 @@ if(isset($postdata) && !empty($postdata)) {
   $sql .= " LEFT JOIN estudiantes e on e.estudianteid = m.estudianteid";
   $sql .= " LEFT JOIN horas h on h.horaid = m.horaid";
   $sql .= " LEFT JOIN catalogos c1 on c1.catalogotipo = ms.estadoanteriortipo and c1.catalogovalor = ms.estadoanteriorvalor";
-  $sql .= " LEFT JOIN catalogos c2 on c2.catalogotipo = ms.estadoactualtipo and c1.catalogovalor = ms.estadoactualvalor";
+  $sql .= " LEFT JOIN catalogos c2 on c2.catalogotipo = ms.estadoactualtipo and c2.catalogovalor = ms.estadoactualvalor";
   $sql .= " WHERE 1=1 ";
   $sql .= " AND ms.fechafin is NULL ";
   $sql .= " AND m.profesorid = '$profesorid' ";
