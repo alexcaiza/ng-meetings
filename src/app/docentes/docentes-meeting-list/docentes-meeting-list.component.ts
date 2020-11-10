@@ -94,7 +94,7 @@ export class DocentesMeetingListComponent implements OnInit {
             { field: 'estudiante.email', header: 'Email' },
             { field: 'fechameeting', header: 'Fecha solicitud' },
             { field: 'hora.horainicio', header: 'Hora' },
-            { field: 'status', header: 'Estado' }
+            { field: 'estadoanterior.nombre', header: 'Estado' }
         ];
     }
 
