@@ -29,7 +29,7 @@ if(isset($postdata) && !empty($postdata)) {
   $sql .= " , p.nombres nombresprofesor, p.cedula cedulaprofesor, p.email emailprofesor ";
   $sql .= " , e.nombres nombresestudiante, e.cedula cedulaestudiante, e.email emailestudiante, e.curso, e.paralelo ";
   $sql .= " , h.horainicio, h.horafin ";
-  $sql .= " , c1.nombre nombreestadoanterior, c2.nombre nombreestadoactual ";
+  $sql .= " , c1.catalogovalornombre nombreestadoanterior, c2.catalogovalornombre nombreestadoactual ";
   $sql .= " FROM meetings m "; 
   $sql .= " LEFT JOIN meetingsstatus ms on ms.meetingid = m.meetingid";
   $sql .= " LEFT JOIN profesores p on p.profesorid = m.profesorid";
