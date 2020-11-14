@@ -22,6 +22,30 @@ export class MeetingsService {
         );
     }
 
+    workflowMeeting(form: any): Observable<any> {
+
+        console.log('form:');
+        console.log(form);
+
+        const url = `${AppSettings.baseUrl}/workflowMeeting.php?meetingid=${form?.meetingid}}`;
+        return this.httpClient.post(url, form, AppSettings.httpOptions).pipe(
+            tap(_ => console.log(`params: ${form}`)),
+            catchError(AppSettings.handleError<any>('workflowMeeting'))
+        );
+    }
+
+    findMeetingStatusById(form: any): Observable<any> {
+
+        console.log('form:');
+        console.log(form);
+
+        const url = `${AppSettings.baseUrl}/findMeetingStatusById.php?meetingid=${form?.meetingid}}`;
+        return this.httpClient.post(url, form, AppSettings.httpOptions).pipe(
+            tap(_ => console.log(`params: ${form}`)),
+            catchError(AppSettings.handleError<any>('findMeetingStatusById'))
+        );
+    }
+
     cancelMeetingEstudiante(form: any): Observable<any> {
 
         console.log(form);

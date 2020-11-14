@@ -16,6 +16,8 @@ import { DocentesMeetingProcessComponent } from './docentes-meeting-process/doce
 
 import { FieldPipe } from '../services/pipes/field.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AlertModule } from '../_alert';
+
 
 
 @NgModule({
@@ -35,7 +37,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ButtonModule,
     ScrollPanelModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AlertModule,
   ]
 })
 export class DocentesModule { }

@@ -21,7 +21,7 @@ export class AlertService {
     }
 
     error(message: string, options?: any) {
-        this.clear();
+        this.clear(options?.id);
         this.alert(new Alert({ ...options, type: AlertType.Error, message }));
     }
 

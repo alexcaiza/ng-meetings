@@ -14,6 +14,10 @@ import { Estudiante } from 'src/app/models/estudiante';
 
 import { SelectItem } from 'primeng/api';
 import { MeetingEnginieStatus } from 'src/app/models/meetingenginiestatus';
+import { AppMessages } from 'src/app/utils/app-messages';
+import { Catalogo } from 'src/app/models/catalogo';
+import { MeetingsConstants } from 'src/app/common/meetings-constants';
+import { MeetingsService } from 'src/app/services/meetings.service';
 
 @Component({
     selector: 'app-docentes-meeting-list',
@@ -28,65 +32,41 @@ export class DocentesMeetingListComponent implements OnInit {
     };
 
     horas: Horario[] = [];
-    profesores: Profesor[] = [];
     estudiante: Estudiante;
     meeting: Meeting = new Meeting();
     meetings: Meeting[];
+
+    meetingstatus: Meeting[];
 
     cols: any[];
 
     data: any;
 
-    displayModal: boolean;
+    public displayModal: boolean;
+    public displayModalMeetingStatus: boolean;
 
     public formGroup: FormGroup;
 
-    typeRelationItems: SelectItem[];
+    catalogosReunionDocente: SelectItem[];
 
     constructor(
         private formBuilder: FormBuilder,
         private dataService: DataserviceService,
         private router: Router,
-        private alertService: AlertService
+        private alertService: AlertService,
+        private meetingService: MeetingsService,
     ) { }
 
+    /**
+     * Metodo ngOnInit()
+     */
     ngOnInit(): void {
 
         console.log('ngOnInit');
 
         this.buildForm();
 
-        var data: any;
-
-        var profesor = this.dataService.getProfesor();
-
-        data = this.dataService.getMeetingsProfesor(profesor).subscribe(response => {
-            console.log(response);
-            if (response) {
-                this.meetings = response.meetings;
-                console.log(response);
-                console.log(this.meetings);
-            }
-        }, err => {
-            console.log(err);
-        });
-
-        this.dataService.findProfesores()
-            .subscribe(response => {
-                console.log(response);
-                this.profesores = response;
-            }, err => {
-                console.log(err);
-            });
-
-        console.log(data);
-
-        if (data) {
-            this.meetings = <Meeting[]>data.meetings;
-
-            console.log('this.meetings');
-            console.log(this.meetings);
-        }
+        this.findMeetingsProfesor();
 
         this.cols = [
             { field: 'estudiante.nombres', header: 'Estudiante' },
@@ -98,96 +78,226 @@ export class DocentesMeetingListComponent implements OnInit {
         ];
     }
 
+    /**
+     * Busca las reuniones del profesor
+     */
+    private findMeetingsProfesor() {
+        var profesor = this.dataService.getProfesor();
+
+        var data : any = this.dataService.getMeetingsProfesor(profesor).subscribe(response => {
+            console.log(response);
+            if (response) {
+                this.meetings = response.meetings;
+                console.log(response);
+                console.log(this.meetings);
+            }
+        }, err => {
+            console.log(err);
+        });
+
+        console.log(data);
+
+        if (data) {
+            this.meetings = <Meeting[]>data.meetings;
+            console.log('this.meetings');
+            console.log(this.meetings);
+        }
+    }
+
+    /**
+     * Metodo buildForm()
+     */
     private buildForm() {
-        const dateLength = 10;
-        const today = new Date().toISOString().substring(0, dateLength);
-
-        const minPassLength = 4;
-
         this.formGroup = this.formBuilder.group({
-            fechameeting: [null, Validators.required],
-            profesorid: [null, Validators.required],
-            horaid: [null, Validators.required],
             ralationTypeForm: [null, Validators.required],
             meetingurlTypeForm: [null, Validators.required],
             observacionTypeForm: [null, Validators.required],
         });
     }
 
+    /**
+     * 
+     */
+    saveMeetingDocente() {
+        console.log('Method saveMeetingDocente()');
+
+        //console.log(angForm1.value);
+        console.log(this.formGroup.value);
+        console.log('meeting:');
+        console.log(this.meeting);
+
+        console.log('ralationTypeForm.value:');
+        console.log(this.formGroup.get('ralationTypeForm').value);
+
+        let meetingEnginieStatus : MeetingEnginieStatus = <MeetingEnginieStatus>this.formGroup.get('ralationTypeForm').value;
+
+        if (meetingEnginieStatus == null 
+            || meetingEnginieStatus == undefined
+        ) {
+            this.alertService.error('Seleccione el tipo de acción para gestionar la reunión', { id: 'alert-popup-meeting-docente' });
+            return;
+        }
+
+        this.meeting.meetingAction = meetingEnginieStatus.estadoaccion;
+
+        if (this.meeting.meetingAction.catalogovalor == MeetingsConstants.MEETING_ACTION_AGENDAR_PROFESOR) {
+            if (this.meeting.meetingurl == null 
+                || this.meeting.meetingurl == undefined
+                || this.meeting.meetingurl == ''
+            ) {
+                this.alertService.error('Ingrese el id del zoom para la reunión', { id: 'alert-popup-meeting-docente' });
+                return;
+            }
+        }
+
+        if (this.meeting.observacion == null 
+            || this.meeting.observacion == undefined
+            || this.meeting.observacion == ''
+        ) {
+            this.alertService.error('Ingrese una observacion', { id: 'alert-popup-meeting-docente' });
+            return;
+        }
+
+        let values = this.formGroup.value;
+        
+        values.meetingid = this.meeting.meetingid;
+        values.meetingEnginieStatus = meetingEnginieStatus;
+
+        let profesor = this.dataService.getProfesor();
+        console.log(profesor);
+
+        let objProfesor : Profesor = <Profesor> JSON.parse(profesor);
+        console.log('objProfesor:');
+        console.log(objProfesor);
+
+        values.profesorid = objProfesor?.profesorid;
+        values.profesor = objProfesor;
+
+        console.log('values:');
+        console.log(values);
+
+        let objMeeting : any = {};
+
+        objMeeting.meetingid = this.meeting.meetingid;
+        objMeeting.meeting = this.meeting;
+        objMeeting.meeting.meetingEnginieStatus = meetingEnginieStatus;
+
+        this.meetingService.workflowMeeting(objMeeting).subscribe(response => {
+                console.log('response workflowMeeting()');
+                console.log(response);
+                if (response != undefined) {
+                    if (response.error === 0) {
+                        // Cierra el modal
+                        this.displayModal=false;
+                        // Consulta los meetings del profesor para actualizar en la pantalla
+                        this.findMeetingsProfesor();
+                        // Mensaje de confirmacion
+                        this.alertService.success('Los datos de la reunion se registraron correctamente', AppMessages.optionsMessages);
+                    } else {
+                        this.alertService.error(response.message, AppMessages.optionsMessages);
+                    }
+                } else {
+                    this.alertService.error("A ocurrido un problema al registar los datos de la reunion", AppMessages.optionsMessages);
+                }
+            }, (err) => {
+            console.log(err);
+            }
+        );
+      }
+
     onRowEditInit(meeting: Meeting) {
         console.log(meeting);
     }
 
-    showModalDialog(meeting: Meeting) {
-        console.log('showModalDialog()');
+    openModalMeetingDocente(meeting: Meeting) {
+        console.log('openModalMeetingDocente()');
+
+        this.alertService.clear('alert-popup-meeting-docente');
 
         this.meeting = meeting;
         console.log(meeting);
-
+        
         this.displayModal = true;
 
         var objParams = {};
+        objParams['meetingid'] = meeting.meetingid;
         objParams['estadoanteriorvalor'] = meeting.meetingstatusvalue;
         objParams['valortipousuario'] = 'PRO';
         
+        console.log('meeting');
         console.log(objParams);
 
-        this.loadCatalogosMeeting(objParams);
+        //Consulta los estados para la reunion
+        this.findCatalogosMeeting(objParams);
     }
 
-    findFechasDocente() {
+    openModalModalMeetingStatus(meeting: Meeting) {
+        console.log('openModalModalMeetingStatus()');
 
-        console.log('Method findFechasDocente()');
+        this.meeting = meeting;
+        console.log(meeting);
+        
+        this.displayModalMeetingStatus = true;
 
-        console.log(this.formGroup.value);
+        var objParams = {};
+        objParams['meetingid'] = meeting.meetingid;
+        objParams['estadoanteriorvalor'] = meeting.meetingstatusvalue;
+        objParams['valortipousuario'] = 'PRO';
+        
+        console.log('meeting');
+        console.log(objParams);
 
-        if (this.formGroup.get("profesorid").value == null) {
-            this.alertService.error('Seleccione un profesor', this.options);
-            return;
-        }
+        this.findMeetingStatus(meeting);
 
-        if (this.formGroup.get("fechameeting").value == null) {
-            this.alertService.error('Seleccione una fecha', this.options);
-            return;
-        }
+    }
 
-        this.dataService.getHoras(this.formGroup.value)
-            .subscribe(response => {
+    
+    /**
+     * Busca las estado de la reunion
+     */
+    private findMeetingStatus(meeting) {
+        var profesor = this.dataService.getProfesor();
+
+        var data : any = this.meetingService.findMeetingStatusById(meeting).subscribe(response => {
+            console.log(response);
+            if (response) {
+                this.meetingstatus = response.meetingstatus;
                 console.log(response);
-                if (response) {
-                    this.horas = response.horas;
-                }
-            }, err => {
-                console.log(err);
-            });
+                console.log(this.meetingstatus);
+            }
+        }, err => {
+            console.log(err);
+        });
+
+        console.log('data.meetingstatus');
+        console.log(data);
+
+        if (data) {
+            this.meetingstatus = <Meeting[]>data.meetingstatus;
+            console.log('this.meetingstatus');
+            console.log(this.meetingstatus);
+        }
     }
 
-    loadCatalogosMeeting(params) {
-        this.typeRelationItems = [{ label: 'Seleccione', value: null }];
+    /**
+     * Consulta los estados para la reunion dado como parametro el estado actual de reunion
+     * 
+     * @param params 
+     */
+    findCatalogosMeeting(params) {
+        this.catalogosReunionDocente = [{ label: 'Seleccione', value: null }];
         let data: any[] = [];
-        let mes: MeetingEnginieStatus[];
+        let meetingEnginieStatus: MeetingEnginieStatus[];
         
         this.dataService.findCatalogosEngineStatusMeeting(params).subscribe((response) => {
             data = response.data;
-            mes = response.estados;
-            mes.forEach((element) => {
-                this.typeRelationItems.push({
-                    label: element.estadoaccion.nombre, value: element.estadoaccion
+            meetingEnginieStatus = response.estados;
+            meetingEnginieStatus.forEach((element) => {
+                this.catalogosReunionDocente.push({
+                    label: element.estadoaccion.nombre, value: element
                 });
             });
         });
-        console.log(this.typeRelationItems);
+        console.log(this.catalogosReunionDocente);
     }
-
-    saveMeeting() {
-
-        console.log('Method saveMeeting()');
-
-        //console.log(angForm1.value);
-        console.log(this.formGroup.value);
-        console.log(this.meeting);
-
-        this.displayModal=false;
-      }
-
 }

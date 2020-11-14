@@ -16,14 +16,15 @@
                     {{meeting|field:col}}
                 </td>
                 <td style="text-align:center">
-
-                    <p-button (click)="showModalDialog(meeting)" icon="pi pi-external-link" styleClass="p-button-link">
-                    </p-button>
-                    <!--
-                    <a (click)="onRowEditInit(meeting)">
-                        <i class="pi pi-check-circle"></i>
+                    <div *ngIf="meeting['meetingstatusvalue'] != 'CAN' && meeting['meetingstatusvalue'] != 'CER'">
+                        <p-button (click)="openModalMeetingDocente(meeting)" icon="pi pi-external-link" styleClass="p-button-link">
+                        </p-button>
+                    </div>
+                    
+                    <a (click)="openModalModalMeetingStatus(meeting)">
+                        <i class="pi pi-id-card"></i>
                     </a>
-                    -->
+                    
                 </td>
             </tr>
         </ng-template>
@@ -35,10 +36,14 @@
     [baseZIndex]="10000" [maximizable]="true"
     [draggable]="true" [resizable]="true" id="recipeDialog">
     <p-header style="color: slategrey;">
-        MEETING
+        CASO ESTUDIANTE
     </p-header>
     <div class="p-0">
-        <form [formGroup]="formGroup" (ngSubmit)="saveMeeting()" autocomplete="off">
+        <alert id="alert-popup-meeting-docente"></alert>
+        <!--
+        <form [formGroup]="formGroup" (ngSubmit)="saveMeetingDocente()" autocomplete="off">
+        -->
+        <form [formGroup]="formGroup" (ngSubmit)="saveMeetingDocente()" autocomplete="off">
             <fieldset class="border p-1 fontsize12">
                 <legend class="w-auto">Profesor</legend>
                 <div class="p-grid" style="margin-top: -30px; margin-bottom: -20px;">
@@ -103,7 +108,7 @@
                             </div>
                             <div class="p-col-4">
                                 <label class="label-form-disabled">Estado : </label>
-                                <label>{{ meeting?.estadoactual?.nombre }}</label>
+                                <label title="{{ meeting?.meetingid }}" >{{ meeting?.estadoactual?.nombre }}</label>
                             </div>
                         </div>
                     </div>
@@ -127,7 +132,7 @@
                                             </option>
                                         </select>
                                         -->
-                                        <p-dropdown [options]="typeRelationItems" [(ngModel)]="meeting.estadoactual"
+                                        <p-dropdown [options]="catalogosReunionDocente" [(ngModel)]="meeting.meetingEnginieStatus"
                                             [style]="{ width: '100%' }" formControlName="ralationTypeForm" required appendTo="body" [baseZIndex]="10000">
                                         </p-dropdown>
                                     </div>
@@ -179,10 +184,85 @@
         <p-button icon="pi pi-times" (click)="displayModal=false" label="No"></p-button>
         -->
         <div class="text-center">
-            <button type="submit" (click)="saveMeeting()"
+            <button type="submit" (click)="saveMeetingDocente()"
                 class="btn btn-outline-primary btn-xs m-1">Aceptar</button>
             <button type="button" (click)="displayModal=false"
                 class="btn btn-outline-danger btn-xs m-1">Cancelar</button>
+        </div>
+    </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="displayModalMeetingStatus" [modal]="true" 
+    [style]="{width: '50vw' }"     
+    [baseZIndex]="10000" [maximizable]="true"
+    [draggable]="true" [resizable]="true" id="modalMeetingStatus">
+    <p-header style="color: slategrey;">
+        CASO ESTUDIANTE
+    </p-header>
+    <div class="p-0">
+        <form [formGroup]="formGroup" (ngSubmit)="saveMeetingDocente()" autocomplete="off">
+            <fieldset class="border p-1 fontsize12">
+                <legend class="w-auto">Estudiante</legend>
+                <div class="p-grid" style="margin-top: -30px; margin-bottom: -20px;">
+                    <div class="p-col-12">
+                        <div class="p-grid" style=" margin-top: 3px;">
+                            <div class="p-col-5">
+                                <label class="label-form-disabled">Nombre : </label>
+                                <label>{{ meeting?.estudiante?.nombres }}</label>
+                            </div>
+                            <div class="p-col-2">
+                                <label class="label-form-disabled">Cedula : </label>
+                                <label>{{meeting?.estudiante?.cedula}}</label>
+                            </div>
+                            <div class="p-col-3">
+                                <label class="label-form-disabled">Email : </label>
+                                <label>{{meeting?.estudiante?.email}}</label>
+                            </div>
+
+                            <div class="p-col-2">
+                                <label class="label-form-disabled">Curso : </label>
+                                <label>{{meeting?.estudiante?.curso}} {{meeting?.estudiante?.paralelo}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset class="border p-1 fontsize12">
+                <legend class="w-auto">Flujo</legend>
+                <div class="p-grid" style="margin-top: -30px; margin-bottom: -20px;">
+                    <div class="p-col-12" *ngFor="let metSta of meetingstatus">
+                        <div class="p-grid" style=" margin-top: 0px;">
+                            <div class="p-col-4">
+                                <label class="label-form-disabled">Fecha : </label>
+                                <label>{{ metSta?.fecharegistro }}</label>
+                            </div>
+                            <div class="p-col-4">
+                                <label class="label-form-disabled">Registro : </label>
+                                <label>{{meeting?.profesor?.cedula}}</label>
+                            </div>
+                            <div class="p-col-4">
+                                <label class="label-form-disabled">Estado : </label>
+                                <label>{{meeting?.profesor?.email}}</label>
+                            </div>
+                        </div>                        
+                    </div>
+                    <div class="p-col-12" style="margin-top: -30px; margin-bottom: -1px;">                        
+                        <label class="label-form-disabled">Observacion : </label>
+                        <label>{{meeting?.profesor?.cedula}}</label>                            
+                    </div>
+                </div>              
+            </fieldset>
+        </form>
+    </div>
+    <ng-template pTemplate="footer">
+        <!--
+        <p-button icon="pi pi-check" (click)="displayModal=false" label="Yes" class="p-button-text"></p-button>
+        <p-button icon="pi pi-times" (click)="displayModal=false" label="No"></p-button>
+        -->
+        <div class="text-center">
+            <button type="button" (click)="displayModalMeetingStatus=false"
+                class="btn btn-outline-danger btn-xs m-1">Cerrar</button>
         </div>
     </ng-template>
 </p-dialog>

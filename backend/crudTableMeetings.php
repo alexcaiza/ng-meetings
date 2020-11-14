@@ -123,10 +123,10 @@
 				}
 			} else {
 				if ($bandF == false) {
-					$message = "Valores vacios en los campos para actualizar meeting";
+					$message = "Valores vacios en los campos para actualizar la reunion";
 				} 
 				else if ($bandR == false) {
-					$message = "Valores vacios en las restricciones para actualizar meeting";
+					$message = "Valores vacios en las restricciones para actualizar reunion";
 				}
 				$error = 1;
 			}

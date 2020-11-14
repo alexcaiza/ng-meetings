@@ -72,6 +72,7 @@ if(isset($postdata) && !empty($postdata)) {
       $hora['horafin'] = $row['horafin'];
 
       $meeting['meetingid'] = $row['meetingid'];
+      $meeting['meetingsstatusid'] = $row['meetingsstatusid'];      
       $meeting['profesorid'] = $row['profesorid'];
       $meeting['estudianteid'] = $row['estudianteid'];
       $meeting['fechameeting'] = $row['fechameeting'];
