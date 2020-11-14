@@ -39,6 +39,7 @@ try {
 					
 					$objMeeting = new stdClass();
 					$objMeeting->meetingid = $meeting->meetingid;
+					$objMeeting->meetingurl = $meeting->meetingurl;
 					$objMeeting->observacion = $meeting->observacion;
 					$objMeeting->meetingstatusvalue = $meetingEnginieStatus->estadoactual->catalogovalor;
 					

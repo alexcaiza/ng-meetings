@@ -44,7 +44,7 @@ export class EstudiantesMeetingListComponent implements OnInit {
                 if (response.count > 0) {
                     this.meeting = response.meetings[0];
                 } else {
-                    this.alertService.error(response.message, AppMessages.optionsMessages);
+                    this.alertService.info(response.message, AppMessages.optionsMessages);
                 }
             }
         }, err => {

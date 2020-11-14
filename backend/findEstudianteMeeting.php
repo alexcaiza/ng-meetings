@@ -16,6 +16,7 @@ try {
 		
 		$params = json_decode($postdata);
 		
+		// Estados de las reunion no validados para presentar en la pantalla del estudiante
 		$notStatusIN = array(
 			MeetingsStatusConstants::CV_MEETING_STATUS_CANCELADO,
 			MeetingsStatusConstants::CV_MEETING_STATUS_CERRADO,

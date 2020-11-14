@@ -11,9 +11,8 @@ legend.scheduler-border {
     font-weight: bold !important;
     text-align: left !important;
     width:auto;
-    padding:0 5px;
-    border-bottom:none;
-    color: #f5a209;
+    padding:0 1px;
+    border-bottom:none;    
 }
 
 .form-group {

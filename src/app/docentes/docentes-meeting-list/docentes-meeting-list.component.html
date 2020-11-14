@@ -16,15 +16,19 @@
                     {{meeting|field:col}}
                 </td>
                 <td style="text-align:center">
-                    <div *ngIf="meeting['meetingstatusvalue'] != 'CAN' && meeting['meetingstatusvalue'] != 'CER'">
-                        <p-button (click)="openModalMeetingDocente(meeting)" icon="pi pi-external-link" styleClass="p-button-link">
-                        </p-button>
+                    <div class="p-grid" style=" margin-top: 0px; width:70px;">
+                        <div class="p-col-6">
+                            <div *ngIf="meeting['meetingstatusvalue'] != 'CAN' && meeting['meetingstatusvalue'] != 'CER'">
+                                <p-button (click)="openModalMeetingDocente(meeting)" icon="pi pi-external-link" styleClass="p-button-link">
+                                </p-button>
+                            </div>
+                        </div>
+                        <div class="p-col-6">
+                            <a (click)="openModalModalMeetingStatus(meeting)">
+                                <i class="pi pi-id-card"></i>
+                            </a>
+                        </div>
                     </div>
-                    
-                    <a (click)="openModalModalMeetingStatus(meeting)">
-                        <i class="pi pi-id-card"></i>
-                    </a>
-                    
                 </td>
             </tr>
         </ng-template>

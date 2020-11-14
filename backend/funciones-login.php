@@ -40,6 +40,8 @@
         $data = new StdClass;
 
         $data->sql = $sql;
+        $data->cedula = $cedula;
+        $data->email = $email;
 
         if($result = mysqli_query($mysqli, $sql)) {
             

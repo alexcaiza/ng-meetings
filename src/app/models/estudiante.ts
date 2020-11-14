@@ -1,5 +1,6 @@
 export class Estudiante {
     estudianteid: number;
+    usuarioid: number;
     nombres: string;
     cedula: string;
     email: string;
