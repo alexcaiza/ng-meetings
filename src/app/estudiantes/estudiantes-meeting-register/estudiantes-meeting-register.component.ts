@@ -105,6 +105,12 @@ export class EstudiantesMeetingRegisterComponent implements OnInit {
 
     }
 
+    cancelSaveMeetingEstudiante() {
+        console.log('Method cancelSaveMeetingEstudiante()');
+        const redirect = this.dataService.redirectUrl ? this.dataService.redirectUrl : '/estudiantes/estudiantes-meeting-list';
+        this.router.navigate([redirect]);
+    }
+
     /*
         Guarda los datos de un meeting en la bbdd
      */
