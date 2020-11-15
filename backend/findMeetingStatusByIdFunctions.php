@@ -29,7 +29,7 @@ function findMeetingStatusById($params, $mysqli) {
 		$sql .= " , ms.fecharegistro fecharegistroms ";
 		$sql .= " , ms.observacion observacionms ";
 		$sql .= " , ms.meetingsstatusid ";
-		$sql .= " , c.catalogovalornombre meetingstatusname ";
+		$sql .= " , cm.catalogovalornombre meetingstatusname ";
 		$sql .= " , p.nombres nombresprofesor ";
 		$sql .= " , e.nombres nombresestudiante ";
 		$sql .= " , h.horainicio, h.horafin ";
@@ -39,7 +39,7 @@ function findMeetingStatusById($params, $mysqli) {
 		$sql .= " INNER JOIN profesores p on p.profesorid = m.profesorid";
 		$sql .= " INNER JOIN estudiantes e on e.estudianteid = m.estudianteid";
 		$sql .= " INNER JOIN horas h on h.horaid = m.horaid";
-		$sql .= " INNER JOIN catalogos c on c.catalogotipo = m.meetingstatuscode and c.catalogovalor = m.meetingstatusvalue ";
+		$sql .= " INNER JOIN catalogos cm on cm.catalogotipo = ms.estadoactualtipo and cm.catalogovalor = ms.estadoactualvalor ";
 		$sql .= " LEFT JOIN usuarios u on u.usuarioid = ms.usuarioregistro";
 		$sql .= " WHERE 1=1 ";		
 		if ($meetingid != null) {
