@@ -13,7 +13,7 @@
 			
 			// Make insert on table meetingsstatus
 			$sql = "INSERT INTO `meetingsstatus` ";
-			$sql .= "(`meetingsstatusid`, `meetingid`, `estadoanteriortipo`, `estadoanteriorvalor`, `estadoactualtipo`, `estadoactualvalor`, `fechainicio`, `fechafin`, `fecharegistro`, `estado`, `observacion`) ";
+			$sql .= "(`meetingsstatusid`, `meetingid`, `estadoanteriortipo`, `estadoanteriorvalor`, `estadoactualtipo`, `estadoactualvalor`, `fechainicio`, `fechafin`, `fecharegistro`, `estado`, `observacion`, `usuarioregistro`) ";
 			$sql .= " VALUES ";
 			$sql .= "(";
 			$sql .= "null,";
@@ -30,10 +30,17 @@
 			}
 			$sql .= "'$fecharegistro',";
 			$sql .= "'$estado',";
+			//Campo observacion
 			if ($params->observacion == null) {
+				$sql .= " null, ";
+			} else {
+				$sql .= "'$params->observacion',";
+			}
+			//Campo usuarioregistro
+			if ($params->usuarioid == null) {
 				$sql .= " null ";
 			} else {
-				$sql .= "'$params->observacion'";
+				$sql .= "'$params->usuarioid'";
 			}			
 			$sql .= ")";
 			
@@ -106,6 +113,10 @@
 			}
 			if (isset($params->observacion) && $params->observacion  != null) {
 				$sql .= ", observacion='$params->observacion'";
+				$bandF = true;
+			}
+			if (isset($params->usuarioid) && $params->usuarioid != null) {
+				$sql .= ", usuariomodificacion 	='$params->usuarioid'";
 				$bandF = true;
 			}
 			

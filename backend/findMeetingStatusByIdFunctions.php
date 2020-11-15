@@ -17,8 +17,8 @@ function findMeetingStatusById($params, $mysqli) {
 	if(isset($params) && !empty($params)) {
 
 		$meetingid = null;
-		if(isset($params->$meetingid) && !empty($params->$meetingid)) {
-			$meetingid = mysqli_real_escape_string($mysqli, $params->$meetingid);
+		if(isset($params->meetingid) && !empty($params->meetingid)) {
+			$meetingid = mysqli_real_escape_string($mysqli, $params->meetingid);
 		}
 			
 		$meetingstatus = array();
@@ -33,12 +33,14 @@ function findMeetingStatusById($params, $mysqli) {
 		$sql .= " , p.nombres nombresprofesor ";
 		$sql .= " , e.nombres nombresestudiante ";
 		$sql .= " , h.horainicio, h.horafin ";
+		$sql .= " , u.nombres nombresms";
 		$sql .= " FROM meetings m ";
 		$sql .= " INNER JOIN meetingsstatus ms on ms.meetingid = m.meetingid";
 		$sql .= " INNER JOIN profesores p on p.profesorid = m.profesorid";
 		$sql .= " INNER JOIN estudiantes e on e.estudianteid = m.estudianteid";
 		$sql .= " INNER JOIN horas h on h.horaid = m.horaid";
 		$sql .= " INNER JOIN catalogos c on c.catalogotipo = m.meetingstatuscode and c.catalogovalor = m.meetingstatusvalue ";
+		$sql .= " LEFT JOIN usuarios u on u.usuarioid = ms.usuarioregistro";
 		$sql .= " WHERE 1=1 ";		
 		if ($meetingid != null) {
 			$sql .= " AND m.meetingid = '$meetingid' ";
@@ -57,10 +59,14 @@ function findMeetingStatusById($params, $mysqli) {
 				while($row = mysqli_fetch_assoc($result)) {
 					$meeting = array();
 					
-					$meeting['meetingid'] = $row['meetingid'];
+					// Campos meeting status
 					$meeting['meetingsstatusid'] = $row['meetingsstatusid'];
 					$meeting['fecharegistro'] = $row['fecharegistroms'];
 					$meeting['observacion'] = $row['observacionms'];
+					$meeting['nombresms'] = $row['nombresms'];
+					
+					// Campos meeting
+					$meeting['meetingid'] = $row['meetingid'];
 					$meeting['profesorid'] = $row['profesorid'];
 					$meeting['estudianteid'] = $row['estudianteid'];
 					$meeting['fechameeting'] = $row['fechameeting'];
@@ -71,7 +77,7 @@ function findMeetingStatusById($params, $mysqli) {
 					$meeting['meetingstatusname'] = $row['meetingstatusname'];
 					$meeting['meetingurl'] = $row['meetingurl'];
 					$meeting['estado'] = $row['estado'];
-	
+					
 					$profesor = array();
 					$profesor['profesorid'] = $row['profesorid'];
 					$profesor['nombres'] = $row['nombresprofesor'];

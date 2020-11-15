@@ -137,6 +137,7 @@ export class EstudiantesMeetingRegisterComponent implements OnInit {
 
         let values = this.formGroup.value;
         values.estudianteid = objEstudiante?.estudianteid;
+        values.usuarioid = objEstudiante?.usuarioid;
 
         this.meetingService.saveMeetingEstudiante(values).subscribe(response => {
                 console.log('response saveMeetingEstudiante()');

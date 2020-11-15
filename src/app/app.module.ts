@@ -17,6 +17,7 @@ import { AlertModule } from './_alert';
 import { FieldPipe } from './services/pipes/field.pipe';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SiblingService } from './services/sibling.service';
 
 @NgModule({
     declarations: [
@@ -39,7 +40,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         //FieldPipe,
         BrowserAnimationsModule
     ],
-    providers: [],
+    providers: [
+        SiblingService,
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

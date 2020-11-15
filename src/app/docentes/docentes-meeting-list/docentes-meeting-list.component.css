@@ -33,3 +33,26 @@ p-table td {
     font-size: 10px !important;
     padding: 0.1rem 0.5rem !important;
 }
+
+.alert-box {
+    /*
+    color:#555;
+    border-radius:10px;
+    font-family:Tahoma,Geneva,Arial,sans-serif;font-size:11px;
+    padding:1px 1px 1px 3px;
+    margin:1px;
+    */
+}
+
+.error {
+    border:1px solid #f5aca6;
+}
+.success {
+    border:1px solid #a6ca8a;
+}
+.warning {
+    border:1px solid #f2c779;
+}
+.notice {
+    border:1px solid #8ed9f6;
+}

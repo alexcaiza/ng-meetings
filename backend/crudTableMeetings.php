@@ -11,7 +11,7 @@
 			
 			// Registra un insert on table meetings
 			$sqlInsertMeeting = "INSERT INTO `meetings` ";
-			$sqlInsertMeeting .= "(`meetingid`, `profesorid`, `estudianteid`, `fechameeting`, `horaid`, `meetingurl`, `meetingstatuscode`, `meetingstatusvalue`, `estado`, `fecharegistro`) ";
+			$sqlInsertMeeting .= "(`meetingid`, `profesorid`, `estudianteid`, `fechameeting`, `horaid`, `meetingurl`, `meetingstatuscode`, `meetingstatusvalue`, `usuarioregistro`, `estado`, `fecharegistro`) ";
 			$sqlInsertMeeting .= " VALUES ";
 			$sqlInsertMeeting .= "(";
 			$sqlInsertMeeting .= "null,";
@@ -33,6 +33,11 @@
 				$sqlInsertMeeting .= "null,";
 			} else {
 				$sqlInsertMeeting .= "'$validationFields->meetingstatusvalue',";
+			}
+			if ($validationFields->usuarioid == null) {
+				$sqlInsertMeeting .= "null,";
+			} else {
+				$sqlInsertMeeting .= "'$validationFields->usuarioid',";
 			}
 			$sqlInsertMeeting .= "'$estado',";
 			$sqlInsertMeeting .= "'$fecharegistro'";
@@ -94,6 +99,10 @@
 			}
 			if (isset($params->estado) && $params->estado != null) {
 				$sql .= ", estado='$params->estado'";
+				$bandF = true;
+			}
+			if (isset($params->usuarioid) && $params->usuarioid != null) {
+				$sql .= ", usuariomodificacion 	='$params->usuarioid'";
 				$bandF = true;
 			}
 			

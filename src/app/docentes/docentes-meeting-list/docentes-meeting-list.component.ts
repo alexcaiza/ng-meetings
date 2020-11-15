@@ -18,6 +18,7 @@ import { AppMessages } from 'src/app/utils/app-messages';
 import { Catalogo } from 'src/app/models/catalogo';
 import { MeetingsConstants } from 'src/app/common/meetings-constants';
 import { MeetingsService } from 'src/app/services/meetings.service';
+import { SiblingService } from 'src/app/services/sibling.service';
 
 @Component({
     selector: 'app-docentes-meeting-list',
@@ -55,7 +56,15 @@ export class DocentesMeetingListComponent implements OnInit {
         private router: Router,
         private alertService: AlertService,
         private meetingService: MeetingsService,
-    ) { }
+        private siblingService: SiblingService
+    ) { 
+        //this.siblingService.findMeetingsProfesor = this.findMeetingsProfesor;
+
+        this.siblingService.callToggle.subscribe(( data ) => {
+            this.findMeetingsProfesor();
+        } )
+
+    }
 
     /**
      * Metodo ngOnInit()
@@ -82,6 +91,9 @@ export class DocentesMeetingListComponent implements OnInit {
      * Busca las reuniones del profesor
      */
     private findMeetingsProfesor() {
+
+        console.log('Method findMeetingsProfesor()');
+
         var profesor = this.dataService.getProfesor();
 
         var data : any = this.dataService.getMeetingsProfesor(profesor).subscribe(response => {
@@ -109,27 +121,19 @@ export class DocentesMeetingListComponent implements OnInit {
      */
     private buildForm() {
         this.formGroup = this.formBuilder.group({
-            ralationTypeForm: [null, Validators.required],
+            meetingEnginieStatusForm: [null, Validators.required],
             meetingurlTypeForm: [null, Validators.required],
             observacionTypeForm: [null, Validators.required],
         });
     }
 
     /**
-     * 
+     * Metodo saveMeetingDocente()
      */
     saveMeetingDocente() {
         console.log('Method saveMeetingDocente()');
 
-        //console.log(angForm1.value);
-        console.log(this.formGroup.value);
-        console.log('meeting:');
-        console.log(this.meeting);
-
-        console.log('ralationTypeForm.value:');
-        console.log(this.formGroup.get('ralationTypeForm').value);
-
-        let meetingEnginieStatus : MeetingEnginieStatus = <MeetingEnginieStatus>this.formGroup.get('ralationTypeForm').value;
+        let meetingEnginieStatus : MeetingEnginieStatus = <MeetingEnginieStatus>this.formGroup.get('meetingEnginieStatusForm').value;
 
         if (meetingEnginieStatus == null 
             || meetingEnginieStatus == undefined
@@ -148,6 +152,10 @@ export class DocentesMeetingListComponent implements OnInit {
                 this.alertService.error('Ingrese el id del zoom para la reunión', { id: 'alert-popup-meeting-docente' });
                 return;
             }
+        } else {
+            if (this.meeting.meetingurl == undefined) {
+                this.meeting.meetingurl = null;
+            }
         }
 
         if (this.meeting.observacion == null 
@@ -158,30 +166,20 @@ export class DocentesMeetingListComponent implements OnInit {
             return;
         }
 
-        let values = this.formGroup.value;
-        
-        values.meetingid = this.meeting.meetingid;
-        values.meetingEnginieStatus = meetingEnginieStatus;
-
         let profesor = this.dataService.getProfesor();
-        console.log(profesor);
-
         let objProfesor : Profesor = <Profesor> JSON.parse(profesor);
-        console.log('objProfesor:');
-        console.log(objProfesor);
-
-        values.profesorid = objProfesor?.profesorid;
-        values.profesor = objProfesor;
-
-        console.log('values:');
-        console.log(values);
-
+        
         let objMeeting : any = {};
 
+        objMeeting.usuarioid = objProfesor.usuarioid;
+        objMeeting.profesorid = objProfesor.profesorid;
         objMeeting.meetingid = this.meeting.meetingid;
         objMeeting.meeting = this.meeting;
         objMeeting.meeting.meetingEnginieStatus = meetingEnginieStatus;
-
+        
+        console.log('objMeeting:');
+        console.log(objMeeting);
+        
         this.meetingService.workflowMeeting(objMeeting).subscribe(response => {
                 console.log('response workflowMeeting()');
                 console.log(response);
@@ -189,7 +187,7 @@ export class DocentesMeetingListComponent implements OnInit {
                     if (response.error === 0) {
                         // Cierra el modal
                         this.displayModal=false;
-                        // Consulta los meetings del profesor para actualizar en la pantalla
+                        // Consulta las reuniones del profesor para actualizar en la pantalla
                         this.findMeetingsProfesor();
                         // Mensaje de confirmacion
                         this.alertService.success('Los datos de la reunion se registraron correctamente', AppMessages.optionsMessages);
@@ -203,12 +201,21 @@ export class DocentesMeetingListComponent implements OnInit {
             console.log(err);
             }
         );
+        
       }
 
+    /**
+     * Metodo onRowEditInit()
+     * @param meeting 
+     */
     onRowEditInit(meeting: Meeting) {
         console.log(meeting);
     }
 
+    /**
+     * Metodo openModalMeetingDocente()
+     * @param meeting 
+     */
     openModalMeetingDocente(meeting: Meeting) {
         console.log('openModalMeetingDocente()');
 
@@ -250,7 +257,6 @@ export class DocentesMeetingListComponent implements OnInit {
         this.findMeetingStatus(meeting);
 
     }
-
     
     /**
      * Busca las estado de la reunion

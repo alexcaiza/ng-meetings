@@ -42,6 +42,7 @@ try {
 					$objMeeting->meetingurl = $meeting->meetingurl;
 					$objMeeting->observacion = $meeting->observacion;
 					$objMeeting->meetingstatusvalue = $meetingEnginieStatus->estadoactual->catalogovalor;
+					$objMeeting->usuarioid = $params->usuarioid;
 					
 					// <1> Actualiza el nuevo estado de la reunion en la cabecera
 					$objMeeting = updateMeetingTable($objMeeting, $mysqli);
@@ -55,6 +56,7 @@ try {
 						$objMeetingStatus->meetingid = $meeting->meetingid;
 						$objMeetingStatus->meetingsstatusid = $meeting->meetingsstatusid;
 						$objMeetingStatus->fechafin = $fechafin;
+						$objMeetingStatus->usuarioid = $params->usuarioid;
 						
 						$objMeetingStatus = updateMeetingStatusTable($objMeetingStatus, $mysqli);
 						
@@ -68,6 +70,7 @@ try {
 						$objMeetingStatus->fechainicio = $fechafin;
 						$objMeetingStatus->observacion = $meeting->observacion;
 						$objMeetingStatus->fechafin = null;
+						$objMeetingStatus->usuarioid = $params->usuarioid;
 						
 						// Realiza el insert en la tabla MEETINGS-STATUS
 						$objMeetingStatus = insertMeetingStatusTable($objMeetingStatus, $mysqli);

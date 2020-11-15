@@ -8,6 +8,15 @@ function validarCamposRequeridosForSaveMeetingEstudiante($params, $mysqli) {
 	$stdClass->isvalid = true;
 	
 	if (isset($params)) {
+		// Valida usuario registro
+		$stdClass->usuarioid = null;
+		if (!isset($params->usuarioid) || empty($params->usuarioid)) {
+			$stdClass->isvalid = false;
+			$stdClass->message = "El campo usuario esta vacio";
+		} else {
+			$stdClass->usuarioid = mysqli_real_escape_string($mysqli,(strip_tags($params->usuarioid, ENT_QUOTES)));
+		}
+		
 		// Valida el profesor
 		$stdClass->profesorid = null;
 		if (!isset($params->profesorid) || empty($params->profesorid)) {

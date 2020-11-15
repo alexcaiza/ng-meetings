@@ -16,6 +16,8 @@ try {
 		
 		$params = json_decode($postdata);
 		
+		//var_dump($params);
+		
 		$response = findMeetingStatusById($params, $mysqli);		
 	}
 	else {

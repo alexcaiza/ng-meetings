@@ -26,6 +26,8 @@ export class Meeting {
     observacion: string;
     meetingurl: string;
 
+    nombresms: String;
+
     constructor() {
         this.meetingid = null;
         this.meetingsstatusid = null;
@@ -44,5 +46,7 @@ export class Meeting {
         this.meetingstatuscode = null;
         this.meetingstatusvalue = null;
         this.meetingstatusname = null;
+
+        this.nombresms = null;
     }
 }

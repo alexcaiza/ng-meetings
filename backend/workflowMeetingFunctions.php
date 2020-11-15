@@ -12,7 +12,18 @@ function validarCamposRequeridosForWorkflowMeeting($params, $mysqli) {
 		
 		// Tiene que pasar todas las validaciones para que isvalid no cambie a false
 		
-		// <1> Valida la maquina de estados para registrar el estado de la reunion
+		// <1> Valida el usuario de registro
+		$stdClass->usuarioid = null;
+		
+		if (!isset($params->usuarioid) || empty($params->usuarioid)) {
+			$stdClass->message = "Los datos del usuario estan vacios";
+			$stdClass->isvalid = false;
+			return $stdClass;
+		} else {
+			$stdClass->usuarioid = $params->usuarioid;
+		}
+		
+		// <2> Valida la maquina de estados para registrar el estado de la reunion
 		$stdClass->meeting = null;
 		
 		if (!isset($params->meeting) || empty($params->meeting)) {
@@ -36,7 +47,7 @@ function validarCamposRequeridosForWorkflowMeeting($params, $mysqli) {
 			return $stdClass;
 		}
 		
-		// <2> Valida la maquina de estados para cambiar el estado de la reunion
+		// <3> Valida la maquina de estados para cambiar el estado de la reunion
 		$meetingEnginieStatus = $meeting->meetingEnginieStatus;
 		
 		if (!isset($meetingEnginieStatus) || empty($meetingEnginieStatus)) {
