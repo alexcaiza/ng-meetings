@@ -38,7 +38,10 @@ if(isset($postdata) && !empty($postdata)) {
 
     $sql = "SELECT * FROM meetings m ";
     $sql .= "WHERE 1=1 ";
-    $sql .= "and m.profesorid = '$profesorid' and m.fechameeting = '$fechameeting' and m.estado = '1'";
+    $sql .= "and m.profesorid = '$profesorid' ";
+    $sql .= "and m.fechameeting = '$fechameeting' ";
+    $sql .= "and m.meetingstatusvalue NOT IN ('CAN') ";
+    $sql .= "and m.estado = '1'";
 
     $response['sqlMeetings'] = $sql;
     $response['weekDay'] = getWeekDay($fechameeting);
