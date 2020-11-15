@@ -3,94 +3,91 @@
         <div class="form-group col mt-2 mb-0">
             <fieldset class="scheduler-border jumbotron">
                 <legend class="scheduler-border">Estudiante</legend>
-                <div class="form-row m-0 p-0">
+                <div class="form-row m-0" style="padding-top: -30px;">
                     <div class="form-group col-md-12">
-                        <label for="firstName" class="form-label col-lg-12" [title]="estudiante.estudianteid">Nombres</label>
+                        <label for="firstName" class="form-label col-lg-12" [title]="estudiante.estudianteid">Nombres:</label>
                         <input type="text" class="form-control col-lg-12 form-control-sm  is-valid" id="firstName" placeholder="Nombres"
                             readonly [value]="estudiante.nombres">
                     </div>
                     <div class="form-group col-md-4">
-                        <label for="lastName" class="form-label col-lg-12">Cedula</label>
+                        <label for="lastName" class="form-label col-lg-12">Cedula:</label>
                         <input type="text" class="form-control col-lg-12 form-control-sm " id="lastName" placeholder="Cedula" readonly
                             [value]="estudiante.cedula">
                     </div>
                     <div class="form-group col-md-4">
-                        <label for="email" class="form-label col-lg-12">Email</label>
+                        <label for="email" class="form-label col-lg-12">Email:</label>
                         <input type="email" class="form-control col-lg-12 form-control-sm " id="email" placeholder="Cedula" readonly
                             [value]="estudiante.email">
                     </div>
                     <div class="form-group col-md-4">
-                        <label for="password" class="form-label col-lg-12">Curso</label>
+                        <label for="password" class="form-label col-lg-12">Curso:</label>
                         <input type="text" class="form-control col-lg-12 form-control-sm " id="lastName" placeholder="Curso" readonly
                             value="{{estudiante.curso}} {{estudiante.paralelo}}">
                     </div>
                 </div>
             </fieldset>
-            
-            <div class="card bg-light mt-1">
-                <div class="card-header">
-                    Datos de la reunión
-                </div>
-                <div class="card-body mt-2 p-0">
-                    <div class="form-group row m-0" *ngIf="meeting !== undefined && meeting !== null && meeting?.profesor !== undefined">
-                        <div class="form-group col-md-12">
-                            <label for="firstName" class="form-label col-lg-12">Profesor</label>
-                            <input type="text" class="form-control col-lg-12 is-valid form-control-sm " id="profesorName"
-                                placeholder="Nombres" readonly [value]="meeting?.profesor?.nombres">
-                        </div>
-
-                        <div class="form-group col-md-4">
-                            <label for="firstName" class="form-label col-lg-4">Fecha</label>
-                            <input type="text" class="form-control col-lg-12 form-control-sm " id="fechaMeeting" placeholder="Nombres"
-                                readonly [value]="meeting?.fechameeting">
-                        </div>
-
-                        <div class="form-group col-md-4">
-                            <label for="firstName" class="form-label col-lg-4">Hora inicio</label>
-                            <input type="text" class="form-control col-lg-12 form-control-sm " id="horainicio" placeholder="Nombres"
-                                readonly [value]="meeting?.hora?.horainicio">
-                        </div>
-
-                        <div class="form-group col-md-4">
-                            <label for="firstName" class="form-label col-lg-4">Hora fin</label>
-                            <input type="text" class="form-control col-lg-12 form-control-sm " id="horafin" placeholder="Nombres"
-                                readonly [value]="meeting?.hora?.horafin">
-                        </div>
-
-                        <div class="form-group col-md-4">
-                            <label for="firstName" class="form-label col-lg-4">Estado</label>
-                            <input type="text" class="form-control col-lg-12 form-control-sm " id="horafin" placeholder="Nombres"
-                                readonly [value]="meeting?.meetingstatusname">
-                        </div>
-
-                        <div class="form-group col-md-4">
-                            <label for="firstName" class="form-label col-lg-4" [title]="meeting?.meetingid">Zoom id</label>
-                            <input type="text" class="form-control col-lg-12 form-control-sm " id="horafin"
-                                readonly [value]="meeting?.meetingurl">
-                        </div>
-
-                        <div class="form-group col-lg-10">
-                            <label for="comment">Observación:</label>
-                            <textarea formControlName="observacion" class="form-control col-lg-12 form-control-sm " rows="2" id="comment"
-                            [value]="meeting?.comentario"></textarea>
-                        </div>
-
-                        <div class="form-group col-lg-2 mt-auto">
-                            <!--
-                            <button type="submit" class=" btn btn-primary padding-top">Submit</button>
-                            -->
-                            
-                            <button type="submit" class="btn btn-outline-danger btn-xs">Cancelar reunion</button>
-                            
-                        </div>
-
+            <fieldset class="scheduler-border jumbotron">
+                <legend class="scheduler-border">Profesor:</legend>
+                <div class="form-group row m-0" *ngIf="meeting !== undefined && meeting !== null && meeting?.profesor !== undefined">
+                    <div class="form-group col-md-12">
+                        <label for="firstName" class="form-label col-lg-12">Profesor:</label>
+                        <input type="text" class="form-control col-lg-12 is-valid form-control-sm " id="profesorName"
+                            placeholder="Nombres" readonly [value]="meeting?.profesor?.nombres">
                     </div>
-                    <!--
-                    <a href="#!" class="btn btn-primary">Cancelar reunion</a>
-                    -->
                 </div>
-            </div>
-        </div>
+            </fieldset>    
+            <fieldset class="scheduler-border jumbotron">
+                <legend class="scheduler-border">Reunión</legend>
+                <div class="form-group row m-0" *ngIf="meeting !== undefined && meeting !== null && meeting?.profesor !== undefined">
+                    <div class="form-group col-md-4">
+                        <label for="firstName" class="form-label col-lg-4">Fecha:</label>
+                        <input type="text" class="form-control col-lg-12 form-control-sm " id="fechaMeeting" placeholder="Nombres"
+                            readonly [value]="meeting?.fechameeting">
+                    </div>
 
+                    <div class="form-group col-md-4">
+                        <label for="firstName" class="form-label col-lg-4">Hora inicio:</label>
+                        <input type="text" class="form-control col-lg-12 form-control-sm " id="horainicio" placeholder="Nombres"
+                            readonly [value]="meeting?.hora?.horainicio">
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="firstName" class="form-label col-lg-4">Hora fin:</label>
+                        <input type="text" class="form-control col-lg-12 form-control-sm " id="horafin" placeholder="Nombres"
+                            readonly [value]="meeting?.hora?.horafin">
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="firstName" class="form-label col-lg-4">Estado:</label>
+                        <input type="text" class="form-control col-lg-12 form-control-sm " id="horafin" placeholder="Nombres"
+                            readonly [value]="meeting?.meetingstatusname">
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="firstName" class="form-label col-lg-4" [title]="meeting?.meetingid">Zoom id:</label>
+                        <input type="text" class="form-control col-lg-12 form-control-sm " id="horafin"
+                            readonly [value]="meeting?.meetingurl">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="observacionMeet" class="form-label col-lg-4" [title]="meeting?.observacion">Observación:</label>
+                        <label>{{meeting?.observacion}}</label>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset class="scheduler-border jumbotron">
+                <legend class="scheduler-border">Cancelar reunión</legend>
+                <div class="form-group row m-0" *ngIf="meeting !== undefined && meeting !== null && meeting?.profesor !== undefined">
+                    <div class="form-group col-lg-10">
+                        <label for="comment">Observación:</label>
+                        <textarea formControlName="observacion" class="form-control col-lg-12 form-control-sm " rows="2" id="comment"
+                        [value]="meeting?.observacion"></textarea>
+                    </div>
+
+                    <div class="form-group col-lg-2 mt-auto">
+                        <button type="submit" class="btn btn-outline-danger btn-xs">Cancelar reunion</button>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
     </form>
 </div>

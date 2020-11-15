@@ -46,6 +46,7 @@ function findMeetingsEstudiante($params, $mysqli) {
 		$sql = "SELECT ";
 		$sql .= " m.* ";
 		$sql .= " , ms.meetingsstatusid ";
+		$sql .= " , ms.observacion ";
 		$sql .= " , c.catalogovalornombre meetingstatusname ";
 		$sql .= " , p.nombres nombresprofesor ";
 		$sql .= " , e.nombres nombresestudiante ";
@@ -97,6 +98,7 @@ function findMeetingsEstudiante($params, $mysqli) {
 					$meeting['meetingstatusname'] = $row['meetingstatusname'];
 					$meeting['meetingurl'] = $row['meetingurl'];
 					$meeting['estado'] = $row['estado'];
+					$meeting['observacion'] = $row['observacion'];
 	
 					$profesor = array();
 					$profesor['profesorid'] = $row['profesorid'];

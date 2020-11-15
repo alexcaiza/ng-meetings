@@ -56,13 +56,13 @@ export class DocentesMeetingListComponent implements OnInit {
         private router: Router,
         private alertService: AlertService,
         private meetingService: MeetingsService,
-        private siblingService: SiblingService
+        private siblingService: SiblingService,
     ) { 
         //this.siblingService.findMeetingsProfesor = this.findMeetingsProfesor;
 
         this.siblingService.callToggle.subscribe(( data ) => {
             this.findMeetingsProfesor();
-        } )
+        });
 
     }
 

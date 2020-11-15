@@ -7,6 +7,7 @@ import { AppMessages } from 'src/app/utils/app-messages';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { MeetingsService } from 'src/app/services/meetings.service';
 import { MeetingsConstants } from 'src/app/common/meetings-constants';
+import { SiblingService } from 'src/app/services/sibling.service';
 
 @Component({
     selector: 'app-estudiantes-meeting-list',
@@ -24,8 +25,13 @@ export class EstudiantesMeetingListComponent implements OnInit {
         private dataService: DataserviceService,
         private meetingService: MeetingsService,
         private alertService: AlertService,
-        private formBuilder: FormBuilder
-    ) { }
+        private formBuilder: FormBuilder,
+        private siblingService: SiblingService,
+    ) { 
+        this.siblingService.callFindEstudianteMeetings.subscribe((data) => {
+            this.findEstudianteMeetings();
+        });
+    }
 
     ngOnInit(): void {
 
@@ -33,10 +39,11 @@ export class EstudiantesMeetingListComponent implements OnInit {
 
         this.buildForm();
 
-        this.findEstudianteMeetingController();
+        this.findEstudianteMeetings();
     }
 
-    private findEstudianteMeetingController() {
+    private findEstudianteMeetings() {
+        console.log('Metodo findEstudianteMeetings()');
         this.dataService.findEstudianteMeeting(this.estudiante).subscribe(response => {
             console.log(response);
             if (response) {
@@ -91,7 +98,7 @@ export class EstudiantesMeetingListComponent implements OnInit {
                 if (response != undefined) {
                     if (response.error === 0) {
                         this.alertService.success('Los reunion se cancelo correctamente', AppMessages.optionsMessages);
-                        this.findEstudianteMeetingController();
+                        this.findEstudianteMeetings();
                     } else {
                         this.alertService.error(response.message, AppMessages.optionsMessages);
                     }

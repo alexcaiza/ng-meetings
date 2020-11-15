@@ -3,18 +3,19 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject, BehaviorSubject } from 'rxjs'
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class SiblingService {
 
-  public callToggle = new Subject();
-  public subjectDocentesList = new BehaviorSubject(null);
-  public siblingDocentesList$ = this.subjectDocentesList.asObservable();
-  public findMeetingsProfesor: Function;
+    public callToggle = new Subject();
+    public callFindEstudianteMeetings = new Subject();
 
-  constructor() { }
+    public subjectDocentesList = new BehaviorSubject(null);
+    public siblingDocentesList$ = this.subjectDocentesList.asObservable();
 
-  public setDocentesList(data:any) {
-    this.subjectDocentesList.next(data);
-  }
+    constructor() { }
+
+    public setDocentesList(data: any) {
+        this.subjectDocentesList.next(data);
+    }
 }
