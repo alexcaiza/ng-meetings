@@ -83,14 +83,20 @@ export class EstudiantesMeetingListComponent implements OnInit {
             return;
         }
 
-        console.log(this.formGroup.value);
-
+        let estudiante = this.dataService.getEstudiante();
+        let objEstudiante = JSON.parse(estudiante);
+        
         let values = this.formGroup.value;
         values.meetingid = this.meeting.meetingid;
         values.meetingsstatusid = this.meeting.meetingsstatusid;
         values.meetingstatuscode = this.meeting.meetingstatuscode;;
         values.meetingstatusvalue = this.meeting.meetingstatusvalue;;
+        values.estudianteid = objEstudiante?.estudianteid;
+        values.usuarioid = objEstudiante?.usuarioid;
+
         values.action = MeetingsConstants.MEETING_ACTION_CANCELAR_ESTUDIANTE;
+
+        console.log(values);
 
         this.meetingService.cancelMeetingEstudiante(values).subscribe(response => {
                 console.log('response cancelMeetingEstudiante()');
