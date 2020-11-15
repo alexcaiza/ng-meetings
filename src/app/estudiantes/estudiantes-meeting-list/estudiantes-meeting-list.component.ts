@@ -50,6 +50,13 @@ export class EstudiantesMeetingListComponent implements OnInit {
                 this.meeting = null;
                 if (response.count > 0) {
                     this.meeting = response.meetings[0];
+                    /*
+                    if (this.meeting && this.meeting.observacion) {
+                        this.formGroup.patchValue({
+                            observacion: this.meeting.observacion                
+                          });                          
+                    }
+                    */
                 } else {
                     this.alertService.info(response.message, AppMessages.optionsMessages);
                 }
@@ -59,7 +66,8 @@ export class EstudiantesMeetingListComponent implements OnInit {
         });
     }
 
-    private buildForm() {       
+    private buildForm() {
+        //let observacion = this.meeting.observacion;       
         this.formGroup = this.formBuilder.group({
             observacion: [null, Validators.required]
         });
@@ -93,6 +101,7 @@ export class EstudiantesMeetingListComponent implements OnInit {
         values.meetingstatusvalue = this.meeting.meetingstatusvalue;;
         values.estudianteid = objEstudiante?.estudianteid;
         values.usuarioid = objEstudiante?.usuarioid;
+        values.observacion = this.formGroup.get("observacion").value;
 
         values.action = MeetingsConstants.MEETING_ACTION_CANCELAR_ESTUDIANTE;
 

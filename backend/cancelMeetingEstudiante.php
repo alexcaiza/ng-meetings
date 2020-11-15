@@ -33,6 +33,7 @@ try {
 			
 			$objMeeting = new stdClass();
 			$objMeeting->meetingid = $params->meetingid;
+			$objMeeting->usuarioid = $params->usuarioid;
 			$objMeeting->meetingstatuscode = MeetingsStatusConstants::CT_MEETING_STATUS;
 			$objMeeting->meetingstatusvalue = MeetingsStatusConstants::CV_MEETING_STATUS_CANCELADO;
 			
@@ -48,6 +49,7 @@ try {
 				$objMeetingStatus->meetingid = $params->meetingid;
 				$objMeetingStatus->meetingsstatusid = $params->meetingsstatusid;
 				$objMeetingStatus->fechafin = $fechafin;
+				$objMeetingStatus->usuarioid = $params->usuarioid;
 				
 				$objMeetingStatus = updateMeetingStatusTable($objMeetingStatus, $mysqli);
 				
@@ -61,6 +63,7 @@ try {
 				$objMeetingStatus->fechainicio = $fechafin;
 				$objMeetingStatus->fechafin = null;
 				$objMeetingStatus->observacion = $params->observacion;
+				$objMeetingStatus->usuarioid = $params->usuarioid;
 				
 				// Realiza el insert en la tabla MEETINGS-STATUS
 				$objMeetingStatus = insertMeetingStatusTable($objMeetingStatus, $mysqli);

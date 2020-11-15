@@ -76,11 +76,11 @@
             </fieldset>
             <fieldset class="scheduler-border jumbotron">
                 <legend class="scheduler-border">Cancelar reunión</legend>
-                <div class="form-group row m-0" *ngIf="meeting !== undefined && meeting !== null && meeting?.profesor !== undefined">
+                <div class="form-group row m-0" *ngIf="meeting !== undefined && meeting !== null">
                     <div class="form-group col-lg-10">
                         <label for="comment">Observación:</label>
-                        <textarea formControlName="observacion" class="form-control col-lg-12 form-control-sm " rows="2" id="comment"
-                        [value]="meeting?.observacion"></textarea>
+                        <textarea formControlName="observacion" 
+                            class="form-control col-lg-12 form-control-sm " rows="2" id="comment"></textarea>
                     </div>
 
                     <div class="form-group col-lg-2 mt-auto">
