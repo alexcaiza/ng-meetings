@@ -74,7 +74,7 @@ export class EstudiantesMeetingListComponent implements OnInit {
     }
 
     public cancelarMeetingEstudiante2() {
-        console.log('Metodo cancelarMeetingEstudiante()');
+        console.log('Metodo cancelarMeetingEstudiante2()');
         console.log(this.formGroup.value);
         console.log(this.meeting);
     }
