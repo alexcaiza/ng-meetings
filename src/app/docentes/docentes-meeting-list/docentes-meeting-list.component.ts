@@ -78,12 +78,12 @@ export class DocentesMeetingListComponent implements OnInit {
         this.findMeetingsProfesor();
 
         this.cols = [
-            { field: 'estudiante.nombres', header: 'Estudiante' },
-            { field: 'estudiante.cedula', header: 'Cedula' },
-            { field: 'estudiante.email', header: 'Email' },
-            { field: 'fechameeting', header: 'Fecha solicitud' },
-            { field: 'hora.horainicio', header: 'Hora' },
-            { field: 'estadoactual.nombre', header: 'Estado' }
+            { field: 'estudiante.nombres', header: 'Estudiante', width: '20%' },
+            { field: 'estudiante.cedula', header: 'Cedula', width: '10%' },
+            { field: 'estudiante.email', header: 'Email', width: '10%' },
+            { field: 'fechameeting', header: 'Fecha solicitud', width: '5%' },
+            { field: 'hora.horainicio', header: 'Hora', width: '5%' },
+            { field: 'estadoactual.nombre', header: 'Estado', width: '5%' }
         ];
     }
 
