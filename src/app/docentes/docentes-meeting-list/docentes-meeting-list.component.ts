@@ -79,8 +79,8 @@ export class DocentesMeetingListComponent implements OnInit {
 
         this.cols = [
             { field: 'estudiante.cedula', header: 'Cedula', width: '5%' },
-            { field: 'estudiante.nombres', header: 'Estudiante', width: '20%' },            
-            { field: 'estudiante.email', header: 'Email', width: '10%' },
+            { field: 'estudiante.nombres', header: 'Estudiante', width: '15%' },            
+            { field: 'estudiante.email', header: 'Email', width: '15%' },
             { field: 'fechameeting', header: 'Fecha solicitud', width: '5%' },
             { field: 'hora.horainicio', header: 'Hora', width: '5%' },
             { field: 'estadoactual.nombre', header: 'Estado', width: '5%' }
