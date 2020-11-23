@@ -1,5 +1,7 @@
 <?php
 
+include_once 'funciones-error-handle.php';
+
 function validarCamposRequeridosForWorkflowMeeting($params, $mysqli) {
 	$stdClass = new stdClass();
 	$stdClass->message = null;

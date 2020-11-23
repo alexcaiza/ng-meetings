@@ -1,7 +1,7 @@
 <?php
-/**
- * Returns the list of policies.
- */
+
+include_once 'funciones-error-handle.php';
+
 require 'database.php';
 
 $profesores = array();

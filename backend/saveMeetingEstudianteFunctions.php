@@ -1,5 +1,6 @@
 <?php
 
+include_once 'funciones-error-handle.php';
 include_once 'findEstudianteMeetingFunctions.php';
 
 function validarCamposRequeridosForSaveMeetingEstudiante($params, $mysqli) {

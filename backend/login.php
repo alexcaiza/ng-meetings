@@ -1,4 +1,7 @@
 <?php
+
+include_once 'funciones-error-handle.php';
+
 include_once("database.php");
 include_once("funciones-login.php");
 

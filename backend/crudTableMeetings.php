@@ -1,5 +1,7 @@
 <?php
 
+	include_once 'funciones-error-handle.php';
+
 	function insertMeetingTable($validationFields, $mysqli) {
 		$meetingid = null;
 		$error = null;

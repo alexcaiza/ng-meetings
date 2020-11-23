@@ -1,6 +1,10 @@
 <?php
 
+include_once 'funciones-error-handle.php';
+
 include_once 'findEstudianteMeetingFunctions.php';
+
+
 
 function validarCamposRequeridosForCancelMeetingEstudiante($params, $mysqli) {
 	$stdClass = new stdClass();

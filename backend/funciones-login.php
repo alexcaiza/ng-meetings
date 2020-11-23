@@ -1,4 +1,7 @@
 <?php
+
+	include_once 'funciones-error-handle.php';
+
     include_once("database.php");
 
     function findEstudianteByCedulaMail($mysqli, $cedula, $email) {

@@ -1,7 +1,7 @@
 <?php
-/**
- * Returns the list of policies.
- */
+
+include_once 'funciones-error-handle.php';
+
 include_once 'database.php';
 include_once 'funciones-fechas.php';
 include_once 'findEstudianteMeetingFunctions.php';

@@ -1,4 +1,7 @@
 <?php
+
+	include_once 'funciones-error-handle.php';
+
 	class MeetingsActionsConstants
 	{
 		const CONSTANT = 'constant value';

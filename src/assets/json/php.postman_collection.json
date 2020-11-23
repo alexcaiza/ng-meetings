@@ -1,0 +1,225 @@
+{
+	"info": {
+		"_postman_id": "95fb4770-f8c0-4cdd-aa87-264335e5d7d2",
+		"name": "php",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "saveMeetingEstudiante.php",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"fechameeting\":\"2020-11-10\",\"profesorid\":\"1\",\"horaid\":\"1\",\"value\":null,\"estudianteid\":\"4\"}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/ng-meetings/backend/saveMeetingEstudiante.php?estudianteid=101",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"ng-meetings",
+						"backend",
+						"saveMeetingEstudiante.php"
+					],
+					"query": [
+						{
+							"key": "estudianteid",
+							"value": "101"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "findEstudianteMeeting.php",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"estudianteid\":\"4\",\"usuarioid\":\"2\",\"nombres\":\"Sandra Salazar\",\"cedula\":\"101\",\"email\":\"a@a.com\",\"estado\":\"1\",\"curso\":\"8\",\"paralelo\":\"A\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/ng-meetings/backend/findEstudianteMeeting.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"ng-meetings",
+						"backend",
+						"findEstudianteMeeting.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "findProfesores.php",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"estudianteid\":\"4\",\"nombres\":\"Luis Salazar\",\"cedula\":\"101\",\"email\":\"a@a.com\",\"estado\":\"1\",\"curso\":\"8\",\"paralelo\":\"A\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/ng-meetings/backend/findProfesores.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"ng-meetings",
+						"backend",
+						"findProfesores.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "findMeetingStatusById.php?meetingid=53}",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"meetingid\":\"53\",\"meetingsstatusid\":\"64\",\"profesorid\":\"1\",\"estudianteid\":\"2\",\"fechameeting\":\"2020-11-15\",\"horaid\":\"1\",\"meetingstatuscode\":\"1\",\"meetingstatusvalue\":\"REG\",\"estado\":\"1\",\"estudiante\":{\"estudianteid\":\"2\",\"nombres\":\"Daniela Manzo\",\"curso\":\"9\",\"paralelo\":\"B\",\"cedula\":\"102\",\"email\":\"a@a.com\"},\"profesor\":{\"profesorid\":\"1\",\"nombres\":\"MARILU ABAD\",\"cedula\":\"100\",\"email\":\"a@a.com\"},\"hora\":{\"horaid\":\"1\",\"horainicio\":\"10:00:00\",\"horafin\":\"10:20:00\"},\"estadoanterior\":{\"catalogotipo\":\"1\",\"catalogovalor\":\"INI\",\"nombre\":\"INICIO\"},\"estadoactual\":{\"catalogotipo\":\"1\",\"catalogovalor\":\"REG\",\"nombre\":\"REGISTRADO\"}}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/ng-meetings/backend/findMeetingStatusById.php?meetingid=53}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"ng-meetings",
+						"backend",
+						"findMeetingStatusById.php"
+					],
+					"query": [
+						{
+							"key": "meetingid",
+							"value": "53}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "findProfesorMeetingsList.php",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"profesorid\":\"1\",\"cedula\":\"100\",\"email\":\"a@a.com\",\"nombres\":\"MARILU ABAD\",\"estado\":\"1\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/ng-meetings/backend/findProfesorMeetingsList.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"ng-meetings",
+						"backend",
+						"findProfesorMeetingsList.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "findProfesorFechaHorarios.php",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"fechameeting\":\"2020-11-08\",\"profesorid\":\"1\",\"horaid\":null,\"value\":null}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/ng-meetings/backend/findProfesorFechaHorarios.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"ng-meetings",
+						"backend",
+						"findProfesorFechaHorarios.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "cancelMeetingEstudiante.php",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"observacion\":\"fasdfasdf\",\"meetingid\":\"26\",\"meetingsstatusid\":\"8\",\"meetingstatuscode\":\"1\",\"meetingstatusvalue\":\"REG\",\"action\":\"CANEST\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/ng-meetings/backend/cancelMeetingEstudiante.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"ng-meetings",
+						"backend",
+						"cancelMeetingEstudiante.php"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
