@@ -33,8 +33,8 @@ export class LoginComponent implements OnInit {
 
     private buildForm() {
         this.angForm = this.fb.group({
-            cedula: ['100', [Validators.required]],
-            email: ['a@a.com', [Validators.required, Validators.minLength(1), Validators.email]]
+            cedula: ['', [Validators.required]],
+            email: ['', [Validators.required, Validators.minLength(1), Validators.email]]
         });
     }
 
